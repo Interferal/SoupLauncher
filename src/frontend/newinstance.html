@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Soup Launcher | New Instance</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/login.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="versionbox">
+					<form class="versionbox" onsubmit="newInstance()">
+						<div class="form-group">
+							<label for="name">Name</label>
+							<input required type="text" maxlength="20" minlength="3" class="form-control" id="name" placeholder="Enter instance name" onkeyup="checkInstanceName()">
+						</div>
+						<div class="form-group">
+							<label for="version">Version</label>
+							<select required class="form-control" id="version" onchange="changedVersion(JSON.parse(this.value))">
+								<option value="">--Please choose a version--</option>
+							</select>
+						</div>
+
+						<div class="form-group" id="forgeVersionSelector" style="display: none;">
+							<label for="forgeversion">Forge Version</label>
+							<select class="form-control" id="forgeversion">
+							</select>
+						</div>
+						<button type="submit" class="btn btn-primary" id="submit">Create new instance</button>
+					</form>
+				</div>
+	
+			<script>
+				let Store = require('../../dest/store.js').Store;
+				let instanceManager = require('../../dest/instanceManager.js');
+
+				const store = new Store(
+				{
+					configName: 'user-data',
+					defaults: {}
+				});
+
+				let versions = store.get('versions');
+				let forgeVersions = store.get('forgeVersions');
+
+				let select = document.getElementById('version');
+				
+				for(let i = 0; i < versions.versions.length; i++)
+				{
+					let ver = versions.versions[i];
+
+					var opt = document.createElement('option');
+					opt.value = JSON.stringify(ver);
+					opt.innerHTML = ver.type + " " + ver.id;
+					select.appendChild(opt);
+				}
+
+				function changedVersion(version)
+				{
+					let versionsForMc = forgeVersions[version.id];
+
+					let elem = document.getElementById('forgeVersionSelector');
+					elem.style.display = versionsForMc ? 'block':'none';
+					let selector = document.getElementById('forgeversion');
+					while (selector.firstChild) 
+					{
+						selector.removeChild(selector.firstChild);
+					}
+
+					if(versionsForMc)
+					{
+						let noForge = document.createElement('option');
+						noForge.value = "";
+						noForge.innerHTML = "-- No forge --";
+						selector.appendChild(noForge);
+
+						for(let i = 0; i < versionsForMc.versions.length; i++)
+						{
+							let v = versionsForMc.versions[i];
+							let opt = document.createElement('option');
+							opt.value = JSON.stringify(v);
+							opt.innerHTML = v.version + " " + v.date;
+							selector.appendChild(opt);
+						}
+					}
+				}
+
+				function newInstance()
+				{
+					let ipcRenderer = require('electron').ipcRenderer;
+					const name = document.getElementById('name').value;
+					const version = JSON.parse(document.getElementById('version').value);
+
+					let val = document.getElementById('forgeversion').value;
+
+					if(val) val = JSON.parse(val);
+					
+					ipcRenderer.send('newInstance', {name: name, version: version, forgeVersion: val});
+
+					window.close();
+				}
+
+				let instances = instanceManager.getInstances();
+				function checkInstanceName()
+				{
+					const name = document.getElementById('name').toLowerCase().trim().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20);
+					document.getElementById('submit').disabled = instances[name] != undefined;
+
+					for(var inst in instances)
+					{
+						inst = instances[inst];
+						let result = inst.folder == name;
+						if(result)
+						{
+							document.getElementById('submit').disabled = result;
+							break;
+						}
+					}
+				}
+			</script>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "name": "souplauncher",
+  "productName": "Soup Launcher",
+  "version": "0.0.3",
+  "description": "",
+  "main": "dest/main.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "npm run build && electron ./dest/main.js",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "npm run build && electron-packager . soup-launcher --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Soup Launcher\"",
+    "package-linux": "npm run build && electron-packager . soup-launcher --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "create-installer-win": "npm run package-win && node installers/windows/createinstaller.js",
+    "create-installer-mac": "npm run package-mac soup-launcher ./release-builds/soup-darwin-x64/soup.app soup-launcher --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns && codesign --deep --force --verbose --sign - release-builds/soup-launcher-darwin-x64/soup-launcher.app/ && electron-installer-dmg release-builds/soup-launcher-darwin-x64/soup-launcher.app/ SoupLauncher --icon=assets/icons/mac/icon.icns"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "github:cthackers/adm-zip",
+    "bytebuffer": "^5.0.1",
+    "electron-context-menu": "^0.13.0",
+    "electron-is-dev": "^1.1.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "fast-html-parser": "^1.0.1",
+    "file-type": "^12.0.1",
+    "fs-extra": "^8.1.0",
+    "got": "^9.6.0",
+    "java-asm": "0.0.4",
+    "long": "^4.0.0",
+    "node-fetch": "^2.6.0",
+    "treelike-task": "0.0.16",
+    "ts-minecraft": "^5.2.5",
+    "twitchappapi": "^1.0.1",
+    "typescript": "^3.5.2",
+    "uuid": "^3.3.2",
+    "yauzl": "^2.10.0",
+    "yauzlw": "0.0.7"
+  },
+  "devDependencies": {
+    "@types/bytebuffer": "^5.0.40",
+    "@types/got": "^9.6.0",
+    "@types/long": "^4.0.0",
+    "@types/node": "^12.0.12",
+    "@types/uuid": "^3.4.4",
+    "@types/yauzl": "^2.9.1",
+    "@types/jquery": "^3.3.30",
+    "electron": "^5.0.6",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-packager": "^14.0.1",
+    "electron-winstaller": "^3.0.4"
+  }
+}

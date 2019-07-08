@@ -1,0 +1,29 @@
+body
+{
+    background-image: url('../img/bg.png');
+    background-repeat: no-repeat;
+    background-size: fill;
+}
+
+.loginbox
+{
+    width: 80%;
+    margin: auto;
+    display: block;
+    padding-top: 15vh;
+}
+
+.versionbox
+{
+    width: 80%;
+    margin: auto;
+    display: block;
+    padding-top: 5vh;
+}
+
+.flashbox
+{
+    margin: auto;
+    display: block;
+    padding-top: 20px;
+}

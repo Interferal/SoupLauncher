@@ -1,0 +1,254 @@
+body
+{
+	padding: 0;
+	margin: 0;
+	background-color: rgb(46, 46, 46);
+	color: white;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.profpic
+{
+	margin: 0;
+	padding: 0;
+	box-shadow: 0px 0px 5px 0px black;
+}
+
+.float
+{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:white;
+	color: black;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float
+{
+	margin-top:22px;
+}
+
+.grid-container 
+{
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	grid-gap: 1em;
+	padding: 10px 30px;
+}
+
+.grid-container img 
+{
+	width: 20%;
+	height: auto;
+	margin: auto;
+}
+
+.location-listing 
+{
+	position: relative;
+	box-shadow: 6px 6px 20px black;
+	padding: 10px;
+}
+
+.location-title 
+{
+	position: absolute;
+	top: 0;
+	left: 45px;
+	height: 100%;
+	width: 90%;
+
+	color: white;
+	font-size: 1.0em;
+	font-weight: bold;
+	text-decoration: none;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.location-title:hover
+{
+	color: green;
+	text-decoration: none;
+}
+
+.location-image
+{
+	margin-left: 20px;
+}
+
+.location-image img
+{
+	box-shadow: 0px 0px 5px 2px rgba(148,148,148,0.77);
+}
+
+.form-control:focus 
+{
+	box-shadow:none !important;
+}
+
+.form-control 
+{
+	box-shadow:none !important;
+	border: 0;
+}
+
+.rc-menu-item
+{
+	color: white;
+	text-decoration: none;
+	display: block;
+	background-color: black;
+	padding: 4px 4px;
+}
+
+.rc-menu-item:hover
+{
+	background-color: rgb(94, 94, 94);
+	text-decoration: none;
+	color: white;
+}
+
+.rc-menu
+{
+	width: 150px; 
+	height: auto; 
+	display: block; 
+	color: white; 
+	padding: 20px 10px;
+	background-color: black;
+	border-radius: 2px;
+	box-shadow: 6px 6px 20px black;
+}
+
+.sidebarnav
+{
+	display: block;
+	background-color: black;
+	color: white;
+	width: 120px;
+	height: 100vh;
+	box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.77);
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.inst-menu-item
+{
+	padding: 4px 4px;
+	color: white;
+	text-decoration: none;
+	display: block;
+	background-color: rgb(12, 12, 12);
+}
+
+.inst-menu-item:hover
+{
+	background-color: rgb(37, 37, 37);
+	text-decoration: none;
+	color: white;
+}
+
+.kontainer
+{
+	position: absolute;
+	top: 0;
+	left: 120px;
+}
+
+.modItem
+{
+	color: black;
+	text-decoration: none;
+}
+
+#searchMods
+{
+	margin-left: 200px; 
+	display: block; 
+	position: absolute; 
+	right: 44vw; 
+	top: 14px;
+	display: none;
+	z-index: 1;
+}
+
+.btn-get
+{
+	float: right;
+	color: white;
+	background-color: black;
+	border-radius: 4px;
+	border: 1px solid gray;
+}
+
+.btn-delete
+{
+	float: right;
+	color: white;
+	background-color: red;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
+
+.btn-get:disabled
+{
+	background-color: blue;
+}
+
+.navbar-brand:hover
+{
+	color: slategray!important;
+}
+
+.console
+{
+	background-color: black;
+	color: white;
+	width: 100%;
+	height: 100%;
+    min-height: 100vh;
+	display: block;
+	font-size: 0.9em;
+	white-space: pre-wrap;
+	word-break: break-all;
+	font-family: monospace;
+}
+
+.console-error
+{
+	color: red;
+}
+
+.console-controls
+{
+	width: 100%;
+	display: block;
+	height: 50px;
+	padding: 5px 5px;
+}
+
+.kill-mc:disabled
+{
+	color: red;
+}
+
+.mod-buttons
+{
+	float: right;
+}
+
+.mod-desc
+{
+	max-width: 90%;
+    white-space: pre-wrap;
+    display: block;
+}
