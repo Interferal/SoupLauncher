@@ -77,16 +77,20 @@ async function launchInstance(instance: any, auth: any)
 		});
 
 		console.log('checkin dependencies');
-		await Version.installDependencies((await Version.parse(resourcePath, version)), resourcePath);
+		await Version.checkDependencies((await Version.parse(resourcePath, version)), resourcePath);
+		console.log(await Version.diagnose(version, resourcePath));
 	}
 
     const javaPath: string = "java";
 	console.log('Launching instance ' + instance.info.displayName + ", v" + version);
 
 	let memory = store.get('memory');
+	let javaArgs = store.get('javaArgs').split(' ');
 
-	try {
-		proc = await Launcher.launch({version: version, gamePath: gamePath, resourcePath: resourcePath, javaPath: javaPath, auth: auth, launcherBrand: "SoupLauncher", launcherName: "soup", minMemory: memory.minMemory, maxMemory: memory.maxMemory});
+	try 
+	{
+		console.log('Launching with Java args ' + javaArgs);
+		proc = await Launcher.launch({version: version, gamePath: gamePath, resourcePath: resourcePath, javaPath: javaPath, auth: auth, launcherBrand: "SoupLauncher", launcherName: "soup", minMemory: memory.minMemory, maxMemory: memory.maxMemory, extraJVMArgs: javaArgs});
 
 	} catch (error) 
 	{
@@ -101,14 +105,14 @@ async function launchInstance(instance: any, auth: any)
 	proc.stdout.on("data", (chunk: any) => 
 	{
 		const content = chunk.toString();
-		document.getElementById('console').innerHTML += content.replace('%tEx', '').trim() + "<br>";
+		document.getElementById('console').innerHTML += content.replace('%tEx', '').replace(auth.accessToken, '').trim() + "<br>";
 		scrollToBottom();
 	});
 
 	proc.stderr.on("data", (chunk: any) => 
 	{
 		const content = chunk.toString();
-		document.getElementById('console').innerHTML += "<b class='console-error'>" + content.replace('%tEx', '').trim() + "</b><br>";
+		document.getElementById('console').innerHTML += "<b class='console-error'>" + content.replace('%tEx', '').replace(auth.accessToken, '').trim() + "</b><br>";
 		scrollToBottom();
 	});
 

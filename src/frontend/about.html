@@ -4,9 +4,26 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
+        <title>Soup Launcher | About</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
+
     <body>
+        <div class="about">
+            <a href="#" onclick="openURL('https://github.com/supertransformer')">Souper</a> - Main Launcher developer.<br>
+            <a href="#" onclick="openURL('https://github.com/ci010/ts-minecraft')">ci010</a> <a href="#" onclick="openURL('https://www.npmjs.com/package/ts-minecraft/')">(ts-minecraft)</a> - Library used for installing & running Minecraft.<br>
+            <a href="#" onclick="openURL('https://github.com/Recaran')">Recaran</a> - Quality testing and telling me my design looks bad.<br>
+            <a href="#">Interferal</a> - For running my code and not trusting it.<br><br>
+            <div>App Icon made by <a href="#" onclick="openURL('https://www.flaticon.com/authors/smalllikeart')" title="smalllikeart">smalllikeart</a> from <a href="#" onclick="openURL('https://www.flaticon.com/')" title="Flaticon">www.flaticon.com</a> is licensed by <a href="#" onclick="openURL('http://creativecommons.org/licenses/by/3.0/')" title="Creative Commons BY 3.0">CC 3.0 BY</a></div>
+        </div>
         
+        <script>
+        const shell = require('electron').shell;
+        function openURL(url)
+        {
+            shell.openItem(url);
+        }
+        </script>
     </body>
 </html>

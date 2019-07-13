@@ -21,7 +21,12 @@
                     </div>
 
                     <span id="memAmt"></span>
-                    <br>
+                    <br><br>
+
+                    <div class="form-group">
+                        <label for="javaArgs">Enter java arguments to be used on every instance</label>
+                        <input required type="text" class="form-control" id="javaArgs">
+                    </div>
 
                     <script>
                         let os = require('os');
@@ -43,13 +48,16 @@
                         document.getElementById('memory').value = store.get('memory').maxMemory;
                         updateRamAmt(store.get('memory').maxMemory);
 
+                        document.getElementById('javaArgs').value = store.get('javaArgs').replace('\n', '').trim();
+
                         function save()
                         {
                             let mem = store.get('memory');
                             mem.maxMemory = parseInt(document.getElementById('memory').value);
-
+                            
+                            store.set('javaArgs', document.getElementById('javaArgs').value.replace('\n', '').trim());
                             store.set('memory', mem);
-                            console.log();
+                            
                             window.close();
                         }
                     </script>

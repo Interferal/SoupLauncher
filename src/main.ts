@@ -175,6 +175,7 @@ async function createWindow()
 	{
 		process.exit();
 	});
+	
 	//win.setMenu(null);
 
 	store.set('playing', {playing: false});
@@ -182,6 +183,11 @@ async function createWindow()
 	if(!store.get('memory'))
 	{
 		store.set('memory', {minMemory: 1024, maxMemory: 2048});
+	}
+
+	if(!store.get('javaArgs'))
+	{
+		store.set('javaArgs', '-XX:+UseG1GC -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M');
 	}
 
 	if(!store.get('profile'))

@@ -63,11 +63,12 @@ export async function createInstance(version: any, name: string, forge: any, don
 	const assetsDir = join(workingDir, 'sharedFiles');
 	const nameLowerCase = name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20).trim();
 	const instanceDir = join(workingDir, 'instances', nameLowerCase);
+	const dateCreated = new Date().getTime();
 
 	if(!existsSync(instanceDir)) mkdirSync(instanceDir);
 	if(!existsSync(assetsDir)) mkdirSync(assetsDir);
 
-	writeFileSync(join(instanceDir, 'info.json'), JSON.stringify({name: nameLowerCase, displayName: name.trim(), downloading: true, version: version, forge: forge}));
+	writeFileSync(join(instanceDir, 'info.json'), JSON.stringify({name: nameLowerCase, dateCreated: dateCreated, displayName: name.trim(), downloading: true, version: version, forge: forge}));
 
 	console.log(`[${nameLowerCase}] starting download [version jar]...`);
 	await Version.installVersion('client', version, assetsDir);
@@ -86,5 +87,5 @@ export async function createInstance(version: any, name: string, forge: any, don
 		console.log(`[${nameLowerCase}] finished forge download`);
 	}
 	console.log(`[${nameLowerCase}] instance installation completed.`);
-	if(!dontMarkDone) writeFileSync(join(instanceDir, 'info.json'), JSON.stringify({name: nameLowerCase, displayName: name.trim(), downloading: false, version: version, forge: forge}));
+	if(!dontMarkDone) writeFileSync(join(instanceDir, 'info.json'), JSON.stringify({name: nameLowerCase, dateCreated: dateCreated, displayName: name.trim(), downloading: false, version: version, forge: forge}));
 }

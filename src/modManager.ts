@@ -60,6 +60,12 @@ async function deleteModFromInstance(modJar)
 {
     let modProfile = mods[modJar];
 
+    if(!modProfile)
+    {
+        modProfile = {};
+        modProfile.disabled = modJar.endsWith('.disabled');
+    }
+
     let fs = require('fs');
     fs.unlinkSync(path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'mods', modProfile.disabled ? modJar+'.disabled':modJar));
     delete mods[modJar];
@@ -103,10 +109,28 @@ async function showInstalledMods(search = "")
                 extra = `onclick="openURL('${actualMod.url}')"`;
             }
             let name = actualMod.name == undefined ? modJar:actualMod.name;
+
+            if(actualMod.info && actualMod.info.attachments)
+            {
+                let thumbnail = actualMod.info.attachments.filter((img: any) => img.isDefault);
+                if(thumbnail.length >= 1) code += `<img class="mod-icon" src="${thumbnail[0].thumbnailUrl}"> `;
+            }
+
             code += `<a href="#" ${extra}>${name}</a>`;
+
+            let authors = "";
+            if(actualMod.info && actualMod.info.authors)
+            {
+                authors += " by ";
+                actualMod.info.authors.forEach(author => 
+                {
+                    authors += `<a href="#" onclick="openURL('${author.url}')">${author.name}</a> `;
+                });
+            }
+
             if(actualMod.name)
             {
-                code += `<br><small class="mod-desc">${actualMod.info.summary}</small>`;
+                code += `${authors}<br><small class="mod-desc">${actualMod.info.summary}</small>`;
             }
         } else
         {
@@ -133,6 +157,11 @@ function changeModState(state: any, modJar: any)
     let filePath = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'mods', modJar);
 
     console.log({path: filePath});
+
+    if(!mods[modJar])
+    {
+        mods[modJar] = {};
+    }
 
     if(state)
     {
@@ -204,11 +233,16 @@ async function getMods(index = 0)
             authors += "by ";
             mod.authors.forEach(author => 
             {
-                authors += `<a href="#" onclick="openURL('${author.url}')">${author.name}</a>`;
+                authors += `<a href="#" onclick="openURL('${author.url}')">${author.name}</a> `;
             });
         }
 
         code += `<li class="list-group-item modItem"><div class="modDiv">`;
+        if(mod.attachments)
+        {
+            let thumbnail = mod.attachments.filter((img: any) => img.isDefault);
+            if(thumbnail.length >= 1) code += `<img class="mod-icon" src="${thumbnail[0].thumbnailUrl}"> `;
+        }
         code += `<a href="#" onclick="openURL('${mod.websiteUrl}')">${mod.name}</a> <small>${authors}</small><br><small class="mod-desc">${mod.summary}</small> <button class="btn-get" id="btn-${mod.id}" onclick="this.disabled=true; installMod(${mod.id});">Install</button>`;
         code += `</div></li>`;
     }
@@ -256,7 +290,7 @@ function saveModList()
     xd.writeFileSync(path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'mods.json'), JSON.stringify(mods));
 }
 
-async function installMod(id: number, skipDependencyCheck = false)
+async function installMod(id: number, iteration = 0)
 {
     let addonFiles = await twitchappapi.getAddonFiles(id);
     let mcVersion = inst.info.version.id;
@@ -273,6 +307,12 @@ async function installMod(id: number, skipDependencyCheck = false)
     {
         console.log('Did not find version for mc'+mcVersion+' for mod '+id);
         console.log(addonFiles);
+        return;
+    }
+
+    if(mods[selectedVersion.fileName])
+    {
+        console.log('Skipping downloading of ' + selectedVersion.fileName + ' because it already exists, addonID: ' + id);
         return;
     }
 
@@ -311,14 +351,14 @@ async function installMod(id: number, skipDependencyCheck = false)
     mods[selectedVersion.fileName.toLowerCase().trim()] = {info: info, name: info.name, url: info.websiteUrl, fileInfo: selectedVersion};
     saveModList();
     
-    if(selectedVersion.dependencies && !skipDependencyCheck)
+    if(selectedVersion.dependencies && iteration < 3)
     {
         selectedVersion.dependencies.forEach(async (depend: any) => 
         {
             if(depend.type != 3) return;
             console.log('Getting dependency ' + depend.addonId + ' of ' + selectedVersion.fileName);
-            console.log(depend);
-            installMod(depend.addonId, true);
+
+            installMod(depend.addonId, ++iteration);
         });
     }
 }
