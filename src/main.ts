@@ -55,7 +55,7 @@ function handleSquirrelEvent()
 		//   explorer context menus
 
 		// Install desktop and start menu shortcuts
-		spawnUpdate(['--createShortcut', exeName]);
+		spawnUpdate(['--createShortcut', 'Soup Launcher']);
 
 		setTimeout(app.quit, 1000);
 		return true;
@@ -65,7 +65,7 @@ function handleSquirrelEvent()
 		// --squirrel-updated handlers
 
 		// Remove desktop and start menu shortcuts
-		spawnUpdate(['--removeShortcut', exeName]);
+		spawnUpdate(['--removeShortcut', 'Soup Launcher']);
 
 		setTimeout(app.quit, 1000);
 		return true;

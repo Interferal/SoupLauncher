@@ -1,7 +1,7 @@
 {
   "name": "souplauncher",
   "productName": "Soup Launcher",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "dest/main.js",
   "scripts": {
@@ -39,10 +39,10 @@
   },
   "devDependencies": {
     "@types/bytebuffer": "^5.0.40",
-    "@types/got": "^9.6.0",
+    "@types/got": "^9.6.1",
     "@types/jquery": "^3.3.30",
     "@types/long": "^4.0.0",
-    "@types/node": "^12.6.2",
+    "@types/node": "^12.6.3",
     "@types/uuid": "^3.4.4",
     "@types/yauzl": "^2.9.1",
     "electron": "^5.0.6",
