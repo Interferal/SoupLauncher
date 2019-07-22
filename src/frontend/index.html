@@ -11,7 +11,7 @@
         <title>Soup Launcher</title>
     </head>
 
-    <body id="bawdy" oncontextmenu="return alert('rc')">
+    <body id="bawdy">
         <nav class="navbar navbar-light bg-light sticky-top" id="navbar">
             <span class="navbar-brand" onclick="longCatToggle()" style="cursor: crosshair;">Soup Launcher</span>
             <i onclick="openUserMenu()" oncontextmenu="openUserMenu()" class="fas fa-cog settings-cog"></i>
@@ -41,6 +41,22 @@
             var cursorX;
             var cursorY;
 
+            window.addEventListener("contextmenu", (e) =>
+            {
+                if(e.path[0].nodeName == 'HTML' || e.path[0].nodeName == 'DIV')
+                {
+                    let bawdy = document.getElementById('bawdy');
+                    let added = `
+                    <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
+                        <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New Instance</a>
+                        <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();importPack();">Import Pack</a>
+                    </div>`;
+
+                    bawdy.innerHTML += added;
+                    e.stopPropagation();
+                }
+            }, true);
+
             function refreshVersions()
             {
                 ipcRenderer.send('refreshVersions', {});
@@ -52,7 +68,7 @@
                 <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 140}px; top: ${cursorY - 10}px; z-index: 2;">
                     <a href="#" class="rc-menu-item" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');this.parentElement.remove();">Settings</a>
                     <a href="#" class="rc-menu-item" onclick="refreshVersions();this.parentElement.remove();">Refresh Versions</a>
-                    <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();importPack()">Import Pack</a>
+                    <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();importPack();">Import Pack</a>
                     <a href="#" class="rc-menu-item" onclick="logout();this.parentElement.remove();">Logout</a>
                     <a href="#" class="rc-menu-item" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');this.parentElement.remove();">About</a>
                     <a href="#" class="rc-menu-item btn-odt" onclick="remote.getCurrentWindow().openDevTools();this.parentElement.remove();">Open DevTools</a>

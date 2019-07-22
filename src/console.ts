@@ -90,8 +90,8 @@ async function launchInstance(instance: any, auth: any)
 	try 
 	{
 		console.log('Launching with Java args ' + javaArgs);
-		proc = await Launcher.launch({version: version, gamePath: gamePath, resourcePath: resourcePath, javaPath: javaPath, auth: auth, launcherBrand: "SoupLauncher", launcherName: "soup", minMemory: memory.minMemory, maxMemory: memory.maxMemory, extraJVMArgs: javaArgs});
-
+		proc = await Launcher.launch({extraExecOption: {detached: true} ,version: version, gamePath: gamePath, resourcePath: resourcePath, javaPath: javaPath, auth: auth, launcherBrand: "SoupLauncher", launcherName: "soup", minMemory: memory.minMemory, maxMemory: memory.maxMemory, extraJVMArgs: javaArgs});
+		proc.unref();
 	} catch (error) 
 	{
 		console.log(error);
