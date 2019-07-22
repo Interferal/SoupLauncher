@@ -11,7 +11,7 @@
         <title>Soup Launcher</title>
     </head>
 
-    <body id="bawdy">
+    <body id="bawdy" oncontextmenu="return alert('rc')">
         <nav class="navbar navbar-light bg-light sticky-top" id="navbar">
             <span class="navbar-brand" onclick="longCatToggle()" style="cursor: crosshair;">Soup Launcher</span>
             <i onclick="openUserMenu()" oncontextmenu="openUserMenu()" class="fas fa-cog settings-cog"></i>
@@ -272,7 +272,7 @@
 
                     container.innerHTML += `
                 <article class="location-listing">
-                    <a class="location-title" href="#" oncontextmenu="return openMenu('${inst.folder}')" onclick="launchInstance('${inst.folder}')">${inst.info.displayName}</a>
+                    <a class="location-title" href="#" oncontextmenu="return openMenu('${inst.folder}')" ondblclick="launchInstance('${inst.folder}')">${inst.info.displayName}</a>
                     <div class="location-image">
                     <a href="#" oncontextmenu="return openMenu('${inst.folder}')" onclick="launchInstance('${inst.folder}')">
                         <img src="img/${status}" alt="${inst.info.name}">
@@ -322,20 +322,20 @@
                     configName: 'user-data',
                     defaults: {}
                 });
-
-                if(store.get('playing').playing) return;
-
+                
                 let inst = instances[name];
                 if(!inst) return;
                 if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
 
                 let bawdy = document.getElementById('bawdy');
 
+                let extra = store.get('playing').playing ? '':`<a href="#" class="rc-menu-item" onclick="deleteInstance('${name}');this.parentElement.remove();">Delete instance</a>`;
+
                 let added = `
                 <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
                     ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\''+name+'\');this.parentElement.remove();">Mod Manager</a>':''}
                     <a href="#" class="rc-menu-item" onclick="openFolder('${name}');this.parentElement.remove();">Open Folder</a>
-                    <a href="#" class="rc-menu-item" onclick="deleteInstance('${name}');this.parentElement.remove();">Delete instance</a>
+                    ${extra}
                 </div>`;
 
                 bawdy.innerHTML += added;

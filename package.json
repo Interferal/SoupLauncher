@@ -1,7 +1,7 @@
 {
   "name": "souplauncher",
   "productName": "Soup Launcher",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "dest/main.js",
   "scripts": {
@@ -19,6 +19,7 @@
   "dependencies": {
     "adm-zip": "github:cthackers/adm-zip",
     "bytebuffer": "^5.0.1",
+    "discord-rich-presence": "0.0.8",
     "electron-context-menu": "^0.13.0",
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
@@ -34,20 +35,21 @@
     "twitchappapi": "^1.0.1",
     "typescript": "^3.5.3",
     "uuid": "^3.3.2",
+    "ws": "^7.1.1",
     "yauzl": "^2.10.0",
     "yauzlw": "0.0.7"
   },
   "devDependencies": {
     "@types/bytebuffer": "^5.0.40",
-    "@types/got": "^9.6.1",
+    "@types/got": "^9.6.2",
     "@types/jquery": "^3.3.30",
     "@types/long": "^4.0.0",
-    "@types/node": "^12.6.3",
+    "@types/node": "^12.6.8",
     "@types/uuid": "^3.4.4",
     "@types/yauzl": "^2.9.1",
-    "electron": "^5.0.6",
+    "electron": "^5.0.7",
     "electron-installer-dmg": "^3.0.0",
-    "electron-packager": "^14.0.1",
+    "electron-packager": "^14.0.2",
     "electron-winstaller": "^3.0.4"
   }
 }

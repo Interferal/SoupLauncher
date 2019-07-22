@@ -101,6 +101,7 @@ async function launchInstance(instance: any, auth: any)
 	playing = true;
 	store.set('playing', {playing: playing});
 	
+	ipcRenderer.send('setDiscordRichPresence', {state: instance.info.displayName, details: 'Playing'});
 	
 	proc.stdout.on("data", (chunk: any) => 
 	{
@@ -121,7 +122,8 @@ async function launchInstance(instance: any, auth: any)
 		console.log('Instance shut down!');
 		playing = false;
 		store.set('playing', {playing: playing});
-		
+
+		ipcRenderer.send('setDiscordRichPresence', {state: "Stopped playing " + instance.info.displayName, details: "Idle"});
 		if(code == 0) window.close();
 	});
 }

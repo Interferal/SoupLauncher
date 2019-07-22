@@ -4,6 +4,17 @@ import { app, BrowserWindow, ipcMain, autoUpdater, dialog } from "electron";
 import { createInstance } from './instanceManager'
 
 import { Store } from './store';
+
+var discordRichPresence;
+
+try 
+{
+	discordRichPresence = require('discord-rich-presence')('601845589738520596');
+} catch (error) 
+{
+	console.log('Could not connect to discord rich presence!');
+}
+
 // @ts-ignore
 if(require('electron-squirrel-startup')) return;
 
@@ -253,4 +264,31 @@ ipcMain.on('refreshVersions', async (event: any, data: any) =>
 	store.set('forgeVersions', undefined);
 	checkVersions();
 });
+
+function updatePresence(state: string, details: string)
+{
+	try 
+	{
+		discordRichPresence.updatePresence(
+		{
+			state: state,
+			details: details,
+			startTimestamp: Date.now(),
+			largeImageKey: 'logo',
+			smallImageKey: 'logo',
+			instance: true,
+		});
+	} catch (error)
+	{
+		console.log('Failed to update discord rich presence!');
+	}
+}
+
+ipcMain.on('setDiscordRichPresence', async (event: any, data: any) =>
+{
+	updatePresence(data.state, data.details);
+});
+
+updatePresence('Lurking', 'Idle');
+
 app.on('ready', createWindow);
