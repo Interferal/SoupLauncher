@@ -2,17 +2,19 @@ let Store = require('../../dest/store.js').Store;
 let instanceManager = require('../../dest/instanceManager.js');
 let ipcRenderer = require('electron').ipcRenderer;
 
-import { Version, Launcher} from 'ts-minecraft';
+import { Version, Launcher, Forge } from 'ts-minecraft';
 import { readdirSync, mkdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ChildProcess } from 'child_process';
 
 let instances = instanceManager.getInstances();
 var $_GET = {};
-if(document.location.toString().indexOf('?') !== -1) {
+if(document.location.toString().indexOf('?') !== -1) 
+{
     var query = document.location.toString().replace(/^.*?\?/, '').replace(/#.*$/, '').split('&');
 
-    for(var i=0, l=query.length; i<l; i++) {
+	for(var i=0, l=query.length; i<l; i++) 
+	{
         var aux = decodeURIComponent(query[i]).split('=');
         $_GET[aux[0]] = aux[1].replace('+', ' ');
     }
@@ -76,6 +78,23 @@ async function launchInstance(instance: any, auth: any)
 			}
 		});
 
+		if(version == instance.info.version.id)
+		{
+			console.log('forge was not found, downloading.');
+			console.log(`[${instance.folder}] starting forge download...`);
+			await Forge.install(instance.info.forge, resourcePath, {forceCheckDependencies: true});
+			console.log(`[${instance.folder}] finished forge download`);
+
+			files.forEach(folder =>
+			{
+				if(folder.toLowerCase().includes('forge') && folder.toLowerCase().includes(version) && folder.toLowerCase().includes(instance.info.forge.version))
+				{
+					version = folder;
+					return;
+				}
+			});
+		}
+
 		console.log('checkin dependencies');
 		await Version.checkDependencies((await Version.parse(resourcePath, version)), resourcePath);
 		console.log(await Version.diagnose(version, resourcePath));
@@ -124,6 +143,7 @@ async function launchInstance(instance: any, auth: any)
 		store.set('playing', {playing: playing});
 
 		ipcRenderer.send('setDiscordRichPresence', {state: "Stopped playing " + instance.info.displayName, details: "Idle"});
+		ipcRenderer.send('stoppedPlaying', {instance: instance});
 		if(code == 0) window.close();
 	});
 }

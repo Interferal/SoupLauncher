@@ -71,7 +71,7 @@
                     <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();importPack();">Import Pack</a>
                     <a href="#" class="rc-menu-item" onclick="logout();this.parentElement.remove();">Logout</a>
                     <a href="#" class="rc-menu-item" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');this.parentElement.remove();">About</a>
-                    <a href="#" class="rc-menu-item btn-odt" onclick="remote.getCurrentWindow().openDevTools();this.parentElement.remove();">Open DevTools</a>
+                    <a href="#" class="rc-menu-item inst-menu-item-launched" onclick="remote.getCurrentWindow().openDevTools();this.parentElement.remove();">Open DevTools</a>
                 </div>`;
             }
 
@@ -329,6 +329,12 @@
                 });
             }
 
+            ipcRenderer.on('launchInstance', async (event, data) =>
+            {
+                console.log('launch: ' + data.name);
+                launchInstance(data.name);
+            });
+
             function openMenu(name)
             {
                 let instances = instanceManager.getInstances();
@@ -390,7 +396,7 @@
                 }
             }
 
-            function openModManager(name)
+            async function openModManager(name)
             {
                 let instances = instanceManager.getInstances();
 
@@ -398,7 +404,16 @@
                 if(!inst) return;
                 if(inst.info.downloading) return alert('instance still downloading!');
 
-                window.open('modManager.html?name='+encodeURI(name), '_blank', 'nodeIntegration=yes, width=870, height=540');
+                let win = await window.open('modManager.html?name='+encodeURI(name), '_blank', 'nodeIntegration=yes, width=895, height=540');
+             
+                ipcRenderer.on('stoppedPlaying', async (event, data) =>
+                {
+                    win.eval(`
+                    btn = document.getElementById('btn-launch');
+                    btn.classList.toggle('inst-menu-item-launch');
+                    btn.classList.toggle('inst-menu-item-launched');
+                    btn.disabled = false;`);
+                });
             }
 
             const { shell } = require('electron');

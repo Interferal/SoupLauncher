@@ -7,7 +7,11 @@
 		<title id="title">Soup Launcher | Mod Manager for instance </title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone-min.js"></script>
+		<script src="https://animejs.com/lib/anime.min.js"></script>
 	</head>
 
 	<body>
@@ -26,16 +30,17 @@
 			clearTimeout(typingTimer);
 			typingTimer = setTimeout(getMods, doneTypingInterval);
 		});
-
 		</script>
 
 		<div class="container kontainer" id="container">
 
 		</div>
 		<div id="filterMods" style="margin-left: 200px; display: none; position: absolute; right: 40vw; top: 92%;">Filter mods <input type="text" placeholder="Search..." onkeyup="showInstalledMods(this.value)"></div>
-		<div class="sidebarnav">
+		<div class="sidebarnav" id="sidebarnav">
+				<button id="btn-launch" style="width: 100%; border: 0; text-align: left;" class="rc-menu-item inst-menu-item inst-menu-item-launch" onclick="launchInstance(this)">Launch</button>
 				<a href="#" class="rc-menu-item inst-menu-item" onclick="showInstalledMods()">Installed Mods</a>
 				<a href="#" class="rc-menu-item inst-menu-item" onclick="getMods()">Get Mods</a>
+				<a href="#" class="rc-menu-item inst-menu-item" onclick="showConfigEditor()">Config Editor</a>
 		</div>
 
 		<script>var exports = {};</script>

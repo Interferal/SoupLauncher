@@ -289,6 +289,16 @@ ipcMain.on('setDiscordRichPresence', async (event: any, data: any) =>
 	updatePresence(data.state, data.details);
 });
 
+ipcMain.on('launchInstance', async (event: any, data: any) =>
+{
+	win.webContents.send('launchInstance', data);
+});
+
+ipcMain.on('stoppedPlaying', async (event: any, data: any) =>
+{
+	console.log('stopped playing ' + data.instance.folder);
+	win.webContents.send('stoppedPlaying', data);
+});
 updatePresence('Lurking', 'Idle');
 
 app.on('ready', createWindow);
