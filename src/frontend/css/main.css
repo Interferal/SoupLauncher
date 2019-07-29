@@ -321,6 +321,8 @@ body
 	padding-right: 4px;
 }
 
+
+
 .configeditor-hidden
 {
 	display: none;
@@ -340,6 +342,7 @@ body
 .configeditor-div span
 {
 	margin-left: 10px;
+	font-weight: bold;
 }
 
 .configeditor-div i
@@ -359,5 +362,23 @@ body
 
 .configeditor-content
 {
-	
+	/* TODO */
+}
+
+.ok, .cancel
+{
+	color: white !important;
+	background-color: rgb(10, 10, 10) !important;
+	border: none !important;
+}
+
+.ok:hover, .cancel:hover
+{
+	background-color: rgb(37, 37, 37) !important;
+}
+
+.prompt
+{
+	background-color: black !important;
+	color: white !important;
 }

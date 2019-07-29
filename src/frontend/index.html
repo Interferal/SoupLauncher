@@ -32,6 +32,8 @@
             const join = require('path').join;
             const twitchappapi = require('twitchappapi');
             const fetch = require('node-fetch');
+            const Dialogs = require('dialogs');
+            const dialogs = Dialogs();
 
             let Store = require('../../dest/store.js').Store;
             let instanceManager = require('../../dest/instanceManager.js');
@@ -50,6 +52,7 @@
                     <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
                         <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New Instance</a>
                         <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();importPack();">Import Pack</a>
+                        <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));">Open Instances Folder</a>
                     </div>`;
 
                     bawdy.innerHTML += added;
@@ -152,6 +155,8 @@
                     let zip = new AdmZip(zipFile);
                     let zipEntries = zip.getEntries();
                     let manifest = undefined;
+                    let mmcPack = undefined;
+                    let mmcPackName = undefined;
 
                     for (let i = 0; i < zipEntries.length; i++) 
                     {
@@ -160,18 +165,50 @@
                         {
                             manifest = JSON.parse(zipEntry.getData().toString('utf8'));
                         }
+
+                        if(zipEntry.entryName.toLowerCase().trim().includes('mmc-pack.json'))
+                        {
+                            mmcPack = JSON.parse(zipEntry.getData().toString('utf8'));   
+                            mmcPackName = zipEntry.entryName.trim().replace('/', '').replace('mmc-pack.json', '');
+                        }
                     }
 
-                    if(!manifest)
+                    if(!manifest && !mmcPack)
                     {
-                        throw new Error('Did not find manifest.json in the root of the zip file!');
+                        throw new Error('Did not find manifest.json or mmc-pack.json in the zip file!');
+                    }
+
+                    if(!manifest && mmcPack)
+                    {
+                        manifest = 
+                        {
+                            name: mmcPackName,
+                            overrides: '.minecraft',
+                            mmcPack: true,
+                            files: []
+                        }
+
+                        let mcVersion = mmcPack.components.filter(obj => obj.cachedName == "Minecraft")[0];
+                        let forge = mmcPack.components.filter(obj => obj.cachedName == "Forge")[0];
+
+                        manifest.minecraft = {version: mcVersion.version};
+                        manifest.minecraft.modLoaders = [];
+                        if(forge)
+                        {
+                            manifest.minecraft.modLoaders.push({id: 'forge-' + forge.version});
+                        }
                     }
                     
                     if(!manifest.minecraft) throw new Error('Manifest.json did not have minecraft object.');
 
                     let mcVersion = store.get('versions').versions.filter(version => version.id == manifest.minecraft.version)[0];
-                    let forgeVersionNeeded = manifest.minecraft.modLoaders[0].id.split('-')[1].trim();
-                    let forgeVersion = store.get('forgeVersions')[mcVersion.id].versions.filter(forge => forge.version == forgeVersionNeeded)[0];
+                    let forgeVersion = undefined;
+
+                    if(manifest.minecraft.modLoaders.length)
+                    {
+                        let forgeVersionNeeded = manifest.minecraft.modLoaders[0].id.split('-')[1].trim();
+                        forgeVersion = store.get('forgeVersions')[mcVersion.id].versions.filter(forge => forge.version == forgeVersionNeeded)[0];
+                    }
 
                     console.log({mcVersion: mcVersion, forgeVersion: forgeVersion});
 
@@ -181,8 +218,7 @@
 					for(var inst in instances)
 					{
 						inst = instances[inst];
-						let result = inst.folder == name;
-						if(result)
+						if(inst.folder == name)
 						{
                             alert('Instance with the folder name ' + name + ' already exists!');
 							return;
@@ -190,7 +226,6 @@
 					}
 
                     ipcRenderer.send('newInstance', {name: manifest.name.trim().substring(0, 20), version: mcVersion, forgeVersion: forgeVersion, dontMarkDone: true});
-
                     await timeout(1000);
                     let instDir = join(instanceManager.getWorkingDir(), 'instances', name);
                     let modsDir = join(instDir, 'mods');
@@ -202,14 +237,19 @@
                         for (let i = 0; i < zipEntries.length; i++) 
                         {
                             const zipEntry = zipEntries[i];
-                            if(zipEntry.entryName.startsWith(manifest.overrides)) zip.extractEntryTo(zipEntry.entryName, instDir, /*maintainEntryPath*/true, /*overwrite*/true);
+                            if(zipEntry.entryName.includes('info.json')) continue;
+                            if(zipEntry.entryName.startsWith(manifest.overrides) || (manifest.mmcPack && zipEntry.entryName.includes(manifest.overrides))) 
+                            {
+                                zip.extractEntryTo(zipEntry.entryName, instDir, /*maintainEntryPath*/true, /*overwrite*/true);
+                            }
                         }
 
-                        let overrides = join(instDir, manifest.overrides);
+                        let overrides = manifest.mmcPack ? join(instDir, mmcPackName, manifest.overrides) : join(instDir, manifest.overrides);
                         let files = fs.readdirSync(overrides);
 
                         files.forEach(file =>
                         {
+                            if(file.includes('info.json')) return;
                             fs.move(join(overrides, file), join(instDir, file), {overwrite: true});
                         });
                     }
@@ -351,10 +391,13 @@
 
                 let bawdy = document.getElementById('bawdy');
 
-                let extra = store.get('playing').playing ? '':`<a href="#" class="rc-menu-item" onclick="deleteInstance('${name}');this.parentElement.remove();">Delete instance</a>`;
+                let extra = store.get('playing').playing ? '':`
+                <a href="#" class="rc-menu-item" onclick="deleteInstance('${name}');this.parentElement.remove();">Delete instance</a>
+                `;
 
                 let added = `
                 <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
+                    ${extra ? '<a href="#" class="rc-menu-item" onclick="renameInstance(\''+ name +'\');this.parentElement.remove();">Rename</a>':''}
                     ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\''+name+'\');this.parentElement.remove();">Mod Manager</a>':''}
                     <a href="#" class="rc-menu-item" onclick="openFolder('${name}');this.parentElement.remove();">Open Folder</a>
                     ${extra}
@@ -366,13 +409,17 @@
             deleteFolderRecursive = function(path) 
             {
                 var files = [];
-                if( fs.existsSync(path) ) {
+                if( fs.existsSync(path) ) 
+                {
                     files = fs.readdirSync(path);
-                    files.forEach(function(file,index){
+                    files.forEach(function(file,index)
+                    {
                         var curPath = path + "/" + file;
-                        if(fs.lstatSync(curPath).isDirectory()) { // recurse
+                        if(fs.lstatSync(curPath).isDirectory()) 
+                        { // recurse
                             deleteFolderRecursive(curPath);
-                        } else { // delete file
+                        } else 
+                        { // delete file
                             fs.unlinkSync(curPath);
                         }
                     });
@@ -380,13 +427,36 @@
                 }
             };
 
+            async function renameInstance(name)
+            {
+                let instances = instanceManager.getInstances();
+
+                let inst = instances[name];
+                if(!inst) return;
+                if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
+
+                let newName = await dialogs.prompt('Enter new instance name', inst.info.displayName);
+                if(!newName) return;
+
+                let nameLowerCase = newName.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20).trim();
+
+                let instDir = join(instanceManager.getWorkingDir(), 'instances', name);
+                let json = JSON.parse(fs.readFileSync(join(instDir, 'info.json')));
+                json.name = nameLowerCase;
+                json.displayName = newName.substring(0, 20).trim();
+
+                fs.writeFileSync(join(instDir, 'info.json'), JSON.stringify(json));
+
+                fs.move(instDir, join(instanceManager.getWorkingDir(), 'instances', nameLowerCase));
+            }
+
             function deleteInstance(name)
             {
                 let instances = instanceManager.getInstances();
 
                 let inst = instances[name];
                 if(!inst) return;
-                if(inst.info.downloading) return alert('instance still downloading!');
+                if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
 
                 if(confirm('Do you really want to delete the instance "' + inst.info.displayName + '"?'))
                 {
@@ -402,7 +472,7 @@
 
                 let inst = instances[name];
                 if(!inst) return;
-                if(inst.info.downloading) return alert('instance still downloading!');
+                if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
 
                 let win = await window.open('modManager.html?name='+encodeURI(name), '_blank', 'nodeIntegration=yes, width=895, height=540');
              

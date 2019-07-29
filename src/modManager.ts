@@ -6,6 +6,9 @@ const fetch = require('node-fetch');
 import { Forge } from 'ts-minecraft';
 import { shell, ipcRenderer, remote } from 'electron';
 
+// @ts-ignore
+import { Config } from '../../dest/configParser';
+
 let instances = instanceManager.getInstances();
 var $_GET: any = {};
 if(document.location.toString().indexOf('?') !== -1) {
@@ -153,7 +156,7 @@ async function generateHTMLEditorCodeFor(file, id)
 	const fileSplit = file.split('.');
 	const extention = fileSplit[fileSplit.length - 1].toLowerCase();
 	//let content = filesystem.readFileSync(, 'utf8');
-	let configFile = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'config', file);
+	let instanceRoot = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder);
 
 	switch(extention)
 	{
@@ -161,6 +164,9 @@ async function generateHTMLEditorCodeFor(file, id)
 		{
 			console.log(file);
 			
+			let config = new Config(file, extention, instanceRoot);
+
+			console.log(config);
 
 			break;
 		}
@@ -428,6 +434,11 @@ async function getMods(index = 0)
 	} else
 	{
 		document.getElementById('grouplist').innerHTML += code;
+	}
+
+	if(filteredSearchResults.length < 3)
+	{
+		getMods(index + 25);
 	}
 
 	let elem = document.getElementById('grouplist');

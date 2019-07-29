@@ -160,7 +160,7 @@ async function checkVersions()
 
 			try 
 			{
-				let forgeVer = await ForgeWebPage.getWebPage({mcversion: ver.id});
+				let forgeVer = await ForgeWebPage.getWebPage({mcversion: ver.id, fallback: forgeVersions[ver.id]});
 				forgeVersions[ver.id] = forgeVer;
 				console.log('Fetched forge versions for mc ' + ver.id);
 			} catch (error) 
@@ -189,11 +189,14 @@ async function createWindow()
 	
 	//win.setMenu(null);
 
-	store.set('playing', {playing: false});
-
 	if(!store.get('memory'))
 	{
 		store.set('memory', {minMemory: 1024, maxMemory: 2048});
+	}
+
+	if(!store.get('playing'))
+	{
+		store.set('playing', {playing: false});
 	}
 
 	if(!store.get('javaArgs'))
@@ -209,9 +212,16 @@ async function createWindow()
 
 	try 
 	{
-		console.log('Refreshing login...');
-		const info = await Auth.Yggdrasil.refresh(store.get('profile'));
-		store.set('profile', info);
+		if(!store.get('playing').playing)
+		{
+			console.log('Refreshing login...');
+			const info = await Auth.Yggdrasil.refresh(store.get('profile'));
+			store.set('profile', info);
+		} else
+		{
+			console.log('Instance is already running so not refreshing login token but will refresh on next launch.');
+			store.set('playing', {playing: false});
+		}
 	} catch (error) 
 	{
 		console.log('accessToken invalid! Login again.');
