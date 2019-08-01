@@ -212,7 +212,7 @@
 
                     console.log({mcVersion: mcVersion, forgeVersion: forgeVersion});
 
-                    let name = manifest.name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20).trim();
+                    let name = manifest.name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").replace(/'/g, '').replace('"', '').substring(0, 20).trim();
                     let instances = instanceManager.getInstances();
 
 					for(var inst in instances)
@@ -438,7 +438,7 @@
                 let newName = await dialogs.prompt('Enter new instance name', inst.info.displayName);
                 if(!newName) return;
 
-                let nameLowerCase = newName.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20).trim();
+                let nameLowerCase = newName.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").replace(/'/g, '').replace('"', '').substring(0, 20).trim();
 
                 let instDir = join(instanceManager.getWorkingDir(), 'instances', name);
                 let json = JSON.parse(fs.readFileSync(join(instDir, 'info.json')));

@@ -96,12 +96,7 @@ async function showConfigEditor()
 	let code = "";
 
 	let folder = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'config');
-	console.log(folder);
-
-	let files = await getConfigFilesInDirectory(folder);
-
-	console.log(files);
-	
+	let files = ['AppliedEnergistics2/AppliedEnergistics2.cfg'];//await getConfigFilesInDirectory(folder);
 	let idToFile = {};
 
 	for(let file in files)
@@ -162,11 +157,15 @@ async function generateHTMLEditorCodeFor(file, id)
 	{
 		case 'cfg':
 		{
-			console.log(file);
+			//console.log(file);
 			
 			let config = new Config(file, extention, instanceRoot);
+			let result = config.getResult();
 
-			console.log(config);
+			if(result.parseError)
+			{
+				return "<b>Config parsing error: </b>" + result.parseError;
+			}
 
 			break;
 		}
@@ -272,7 +271,6 @@ async function showInstalledMods(search = "")
 		} 
 		code += `<li class="list-group-item modItem"><div class="modDiv">`;
 		let mod = modsList[modJar];
-		console.log({mod: mod});
 
 		code += `<button class="btn-delete" onclick="this.parentElement.parentElement.remove(); deleteModFromInstance('${modJar}')">Delete</button>`;
 		
@@ -304,11 +302,11 @@ async function showInstalledMods(search = "")
 				{
 					authors += `<a href="#" onclick="openURL('${author.url}')">${author.name}</a> `;
 				});
-			}
 
-			if(actualMod.name)
-			{
-				code += `${authors}<br><small class="mod-desc">${actualMod.info.summary}</small>`;
+				if(actualMod.name)
+				{
+					code += `${authors}<br><small class="mod-desc">${actualMod.info.summary}</small>`;
+				}
 			}
 		} else
 		{

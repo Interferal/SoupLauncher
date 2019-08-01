@@ -247,8 +247,8 @@ ipcMain.on('submitForm', async (event: any, data: any) =>
 		console.log('Got response!');
 
 		store.set('profile', auth);
+		await checkVersions();
 		win.loadURL(`file://${__dirname}/../src/frontend/index.html`);
-		checkVersions();
 	} catch (error) 
 	{
 		console.log(error);

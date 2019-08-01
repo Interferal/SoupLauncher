@@ -130,7 +130,7 @@ body
 	width: 120px;
 	height: 100vh;
 	box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.77);
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 }
@@ -381,4 +381,13 @@ body
 {
 	background-color: black !important;
 	color: white !important;
+}
+.prompt form
+{
+	margin-left: 14px;
+}
+
+.dialog-widget input
+{
+	font-size: 0.9em !important;
 }

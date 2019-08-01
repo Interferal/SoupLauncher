@@ -108,7 +108,7 @@
 				let instances = instanceManager.getInstances();
 				function checkInstanceName()
 				{
-					const name = document.getElementById('name').toLowerCase().trim().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20);
+					const name = document.getElementById('name').toLowerCase().trim().replace(/[/\\?%*:|"<>]/g, "").replace(/'/g, '').replace('"', '').substring(0, 20);
 					document.getElementById('submit').disabled = instances[name] != undefined;
 
 					for(var inst in instances)

@@ -41,6 +41,7 @@ export function getInstances()
 		{
 			let json: any = readFileSync(info);
 			instance.info = JSON.parse(json);
+			instance.info.name = instance.info.name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").replace(/'/g, '').replace('"', '').substring(0, 20).trim();
 
 			result[instance.info.name] = instance;
 		} else
@@ -61,7 +62,8 @@ export async function createInstance(version: any, name: string, forge: any, don
 {
 	const workingDir = getWorkingDir();
 	const assetsDir = join(workingDir, 'sharedFiles');
-	const nameLowerCase = name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").substring(0, 20).trim();
+	const nameLowerCase = name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").replace(/'/g, '').replace('"', '').substring(0, 20).trim();
+	console.log('createInstance() name: ' + nameLowerCase);
 	const instanceDir = join(workingDir, 'instances', nameLowerCase);
 	const dateCreated = new Date().getTime();
 
