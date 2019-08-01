@@ -96,7 +96,7 @@ async function showConfigEditor()
 	let code = "";
 
 	let folder = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'config');
-	let files = ['AppliedEnergistics2/AppliedEnergistics2.cfg'];//await getConfigFilesInDirectory(folder);
+	let files = ['cofh/world/config.cfg'];//['AppliedEnergistics2/AppliedEnergistics2.cfg'];//await getConfigFilesInDirectory(folder);
 	let idToFile = {};
 
 	for(let file in files)
