@@ -46,7 +46,6 @@ store = new Store(
 });
 
 let proc: ChildProcess;
-
 launchInstance(inst, store.get('profile'));
 
 function killMc(button: HTMLButtonElement)
