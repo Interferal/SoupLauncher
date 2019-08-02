@@ -66,7 +66,6 @@ export class Config
 				let name = currLine.endsWith('{') ? currLine.replace('{', '').trim() : lines[currLineIndex - 1].trim();
 				codeBlockNames.push(name);
 				codeBlockDepths[name] = depth;
-				//console.log(name + ' at depth ' + depth);
 				codeBlocks[name] = {start: currLineIndex};
 			}
 			if(currLine == '}')
