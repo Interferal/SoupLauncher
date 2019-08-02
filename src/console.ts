@@ -21,6 +21,7 @@ if(document.location.toString().indexOf('?') !== -1)
 }
 
 let instName = $_GET['name'];
+
 if(!instName)
 {
     window.close();
