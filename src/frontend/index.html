@@ -134,13 +134,12 @@
             {
                 username = profile.selectedProfile.name;
             }
-            
+
             document.getElementById('profpic').src = "https://minotar.net/avatar/"+username+"/48.png";
 
             loadInstances();
 
             const updateInterval = setInterval(loadInstances, 2000);
-
             const { dialog } = require('electron').remote;
             var AdmZip = require('adm-zip');
 
