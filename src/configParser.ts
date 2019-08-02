@@ -74,7 +74,6 @@ export class Config
 				let index = codeBlockNames[codeBlockNames.length - 1];
 				if(currLineIndex == lines.length - 1)
 				{
-					console.log('last line');
 					index = codeBlockNames[0];
 				}
 				codeBlocks[index].end = currLineIndex;
