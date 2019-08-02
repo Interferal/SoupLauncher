@@ -72,6 +72,11 @@ export class Config
 			if(currLine == '}')
 			{
 				let index = codeBlockNames[codeBlockNames.length - 1];
+				if(currLineIndex == lines.length - 1)
+				{
+					console.log('last line');
+					index = codeBlockNames[0];
+				}
 				codeBlocks[index].end = currLineIndex;
 				codeBlocks[index].depth = depth;
 				codeBlocks[index].code = this.getLinesBetween(lines, codeBlocks[index].start, codeBlocks[index].end);
@@ -117,7 +122,7 @@ export class Config
 					const line = codeBlock.code[i];
 					if(currLine.trim() == line.trim() || line.includes('{') || line.includes('}')) break checkNextLine; 
 				}
-				resultingLines.push(currLine);
+				resultingLines.push(currLine.trim());
 			}
 		}
 
