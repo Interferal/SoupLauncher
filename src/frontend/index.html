@@ -232,6 +232,7 @@
                     if(manifest.overrides)
                     {
                         console.log(manifest.overrides);
+                        fs.mkdirSync(join(instDir, manifest.overrides));
 
                         for (let i = 0; i < zipEntries.length; i++) 
                         {

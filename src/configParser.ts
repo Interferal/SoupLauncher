@@ -73,19 +73,38 @@ export class Config
 				let index = codeBlockNames[codeBlockNames.length - 1];
 				if(currLineIndex == lines.length - 1)
 				{
-					index = codeBlockNames[0];
+					//index = codeBlockNames[0];
+					let values = Object.values(codeBlockDepths).reverse();
+					let stopAtIndex = codeBlocks[index].depth - 1;
+					for (let i = 0; i < values.length; i++) 
+					{
+						const currDepthIndex = values[i];
+	
+						if(currDepthIndex == stopAtIndex)
+						{
+							//codeBlocks[index].fqname = Object.keys(codeBlockDepths).reverse()[i] + "." + codeBlocks[index].name;
+							//console.log(codeBlocks[index].fqname);
+							index = Object.keys(codeBlockDepths).reverse()[i];
+							console.error('found index for last: ' + index);
+							break;
+						}
+					}
 				}
 				codeBlocks[index].end = currLineIndex;
 				codeBlocks[index].depth = depth;
 				codeBlocks[index].code = this.getLinesBetween(lines, codeBlocks[index].start, codeBlocks[index].end);
 				codeBlocks[index].name = index;
-				codeBlocks[index].fqname = index;
+
+				if(!codeBlocks[index].fqname)
+				{
+					codeBlocks[index].fqname = codeBlocks[index].name;
+				}
 
 				if(depth != 0)
 				{						
 					let values = Object.values(codeBlockDepths).reverse();
 					let stopAtIndex = codeBlocks[index].depth - 1;
-					
+	
 					for (let i = 0; i < values.length; i++) 
 					{
 						const currDepthIndex = values[i];
@@ -93,10 +112,10 @@ export class Config
 						if(currDepthIndex == stopAtIndex)
 						{
 							codeBlocks[index].fqname = Object.keys(codeBlockDepths).reverse()[i] + "." + codeBlocks[index].name;
-							//console.log(codeBlocks[index].fqname);
 							break;
 						}
 					}
+
 				}
 
 				depth--;
@@ -131,11 +150,6 @@ export class Config
 		{
 			let codeBlock = codeBlocks[name];
 			if(!codeBlock.code) continue;
-			if(name == 'commands')
-			{
-				console.log(codeBlock);
-				return;
-			}
 			let split =  codeBlock.fqname.split('.');
 			console.log('Parsing ' + split.join(' -> '));
 			

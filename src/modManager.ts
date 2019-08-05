@@ -7,7 +7,7 @@ import { Forge } from 'ts-minecraft';
 import { shell, ipcRenderer, remote } from 'electron';
 
 // @ts-ignore
-import { Config } from '../../dest/configParser';
+import { Config } from '../../dest/configParserv2';
 
 let instances = instanceManager.getInstances();
 var $_GET: any = {};
@@ -96,8 +96,9 @@ async function showConfigEditor()
 	let code = "";
 
 	let folder = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder, 'config');
-	let files = await getConfigFilesInDirectory(folder);
+	let files = ['AppliedEnergistics2/AppliedEnergistics2.cfg'];//await getConfigFilesInDirectory(folder);
 	let idToFile = {};
+	
 
 	for(let file in files)
 	{
@@ -152,7 +153,7 @@ async function generateHTMLEditorCodeFor(file, id)
 	const extention = fileSplit[fileSplit.length - 1].toLowerCase();
 	//let content = filesystem.readFileSync(, 'utf8');
 	let instanceRoot = path.join(instanceManager.getWorkingDir(), 'instances', inst.folder);
-
+	
 	switch(extention)
 	{
 		case 'cfg':
