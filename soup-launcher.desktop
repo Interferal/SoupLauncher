@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Soup Launcher
-Exec=electron4 /usr/lib/soup-launcher.asar
+Exec=electron /usr/lib/soup-launcher.asar
 Icon=soup-launcher
 Type=Application
 Categories=Game;Games
