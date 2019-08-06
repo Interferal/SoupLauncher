@@ -73,7 +73,18 @@ export class Config
 
 		generatedJsonCode.push('}');
 		
-		console.log(generatedJsonCode.join('\n'));
+		let code = generatedJsonCode.join('\n');
+		code = this.removeChar(code, code.lastIndexOf(','));
+
+		this.result = JSON.parse(code);
+		console.log(this.result);
+	}
+
+	private removeChar(str, char_pos) 
+	{
+		let part1 = str.substring(0, char_pos);
+		let part2 = str.substring(char_pos + 1, str.length);
+		return (part1 + part2);
 	}
 
 	public getResult(): object 
