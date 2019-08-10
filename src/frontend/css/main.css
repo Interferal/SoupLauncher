@@ -2,7 +2,7 @@ body
 {
 	padding: 0;
 	margin: 0;
-	background-color: rgb(46, 46, 46);
+	background-color: #2f3136;
 	color: white;
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -47,6 +47,8 @@ body
 	position: relative;
 	box-shadow: 6px 6px 20px black;
 	padding: 10px;
+	border-radius: 5px;
+	background-color: #25292b;
 }
 
 .location-title 
@@ -233,6 +235,14 @@ body
 	color: slategray!important;
 }
 
+.navbar-color
+{
+	background-color: #25292b;
+	justify-content: center;
+	box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.60);
+	margin-bottom: 32px;
+}
+
 .console
 {
 	background-color: black;
@@ -294,9 +304,11 @@ body
 
 .profpic
 {
-	margin: 0;
 	padding: 0;
+	top: 10px; 
+	left: calc(100vw - 60px);
 	box-shadow: 0px 0px 5px 0px black;
+	position: absolute;
 }
 
 .about
@@ -370,6 +382,10 @@ body
 	color: white !important;
 	background-color: rgb(10, 10, 10) !important;
 	border: none !important;
+	padding: 8px;
+    width: calc(50% - 5px);
+	font-size: 13px;
+	border-radius: 5px;
 }
 
 .ok:hover, .cancel:hover
@@ -390,4 +406,128 @@ body
 .dialog-widget input
 {
 	font-size: 0.9em !important;
+}
+
+.redesign-button
+{
+	display: block;
+	width: 100px;
+	height: 40px;
+	background-image: linear-gradient(to bottom right, #212121, #15171a);
+	/*background-color: #15171a;*/
+	color: white;
+	margin: 5px 15px;
+	text-align: center;
+	line-height: 40px;
+	border-radius: 5px;
+	box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.60);
+}
+
+.redesign-button:hover
+{
+	box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.90);
+	cursor: pointer;
+}
+
+.fowoter
+{
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 36px;
+	line-height: 36px;
+	background-color: #25292b;
+	box-shadow: -5px -3px 5px 0px rgba(0,0,0,0.70);
+	margin-top: 36px
+}
+
+.modpackbrowser-div
+{
+	margin-left: 20px;
+	text-align: center;
+	margin-top: 10px;
+	justify-content: center;
+}
+
+.modpackbrowser-div label
+{
+	line-height: 24px;
+}
+
+.modpackbrowser-div input,select
+{
+	margin-left: 8px;
+}
+
+.modpackbrowser-container
+{
+	margin-top: -50px;
+}
+
+.modpackbrowser-container li
+{
+	padding-left: 30px;
+}
+
+.modpackbrowser-name
+{
+	padding-left: 6px;
+}
+
+.btn-installModpack
+{
+	float: right;
+	color: white;
+	background-color: black;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
+
+.modpackbrowser-bg
+{
+	position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+}
+
+.modpackbrowser-prompt
+{
+	position: fixed;
+    left: calc(50% - 160px);
+    width: 300px;
+    top: calc(50% - 115px);
+    border: solid 1px #ddd;
+    background: whitesmoke;
+    z-index: 10000;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    color: black;
+    padding: 15px 10px 15px 10px;
+    font-family: arial
+}
+
+.divider
+{
+	border-top: solid 1px #ddd;
+    padding: 0;
+    margin: 15px 0 15px -10px;
+    width: calc(100% + 20px);
+}
+
+.title
+{
+	text-align: center;
+    display: block;
+	font-size: 14px;
+	display: block;
+	
+}
+
+.title-margin
+{
+	margin-left: 20px;
 }

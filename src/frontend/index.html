@@ -12,9 +12,13 @@
     </head>
 
     <body id="bawdy">
-        <nav class="navbar navbar-light bg-light sticky-top" id="navbar">
-            <span class="navbar-brand" onclick="longCatToggle()" style="cursor: crosshair;">Soup Launcher</span>
-            <i onclick="openUserMenu()" oncontextmenu="openUserMenu()" class="fas fa-cog settings-cog"></i>
+        <nav class="navbar sticky-top navbar-color" id="navbar">
+            <div class="redesign-button" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');">Settings</div>
+            <div class="redesign-button" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New</div>
+            <div class="redesign-button" onclick="browseModPacks();">Browse</div>
+            <div class="redesign-button" onclick="importPack();">Import</div>
+            <div class="redesign-button" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');">About</div>
+            <div class="redesign-button" onclick="logout();">Logout</div>
             <img id="profpic" class="profpic" src="">
         </nav>
         <br>
@@ -59,6 +63,18 @@
                     e.stopPropagation();
                 }
             }, true);
+
+            function browseModPacks()
+            {
+                let win = new remote.BrowserWindow(
+                    {
+                        width: 900,
+                        height: 600,
+                        webPreferences: {nodeIntegration: true}
+                    }
+                );
+                win.loadURL(`file://${__dirname}/cursemodpackbrowser.html`);
+            }
 
             function refreshVersions()
             {
@@ -143,9 +159,14 @@
             const { dialog } = require('electron').remote;
             var AdmZip = require('adm-zip');
 
-            async function importPack()
+            ipcRenderer.on('installPackDL', async (event, data) =>
             {
-                let zipFile = dialog.showOpenDialog({title: 'Select Curse Modpack ZIP', properties: ['openFile'], filters: [{ name: 'Zip Files', extensions: ['zip'] }]});
+                importPack([data.zipFile], data.name);
+            });
+
+            async function importPack(zipFile = undefined, mmcPackName = undefined)
+            {
+                if(!zipFile) zipFile = dialog.showOpenDialog({title: 'Select Curse/MultiMC Modpack ZIP', properties: ['openFile'], filters: [{ name: 'Zip Files', extensions: ['zip'] }]});
                 if(!zipFile) return;
                 zipFile = zipFile[0];
 
@@ -155,7 +176,6 @@
                     let zipEntries = zip.getEntries();
                     let manifest = undefined;
                     let mmcPack = undefined;
-                    let mmcPackName = undefined;
 
                     for (let i = 0; i < zipEntries.length; i++) 
                     {
@@ -211,6 +231,11 @@
 
                     console.log({mcVersion: mcVersion, forgeVersion: forgeVersion});
 
+                    if(mmcPackName)
+                    {
+                        manifest.name = mmcPackName;
+                    }
+
                     let name = manifest.name.toLowerCase().replace(/[/\\?%*:|"<>]/g, "").replace(/'/g, '').replace('"', '').substring(0, 20).trim();
                     let instances = instanceManager.getInstances();
 
@@ -240,6 +265,7 @@
                             if(zipEntry.entryName.includes('info.json')) continue;
                             if(zipEntry.entryName.startsWith(manifest.overrides) || (manifest.mmcPack && zipEntry.entryName.includes(manifest.overrides))) 
                             {
+                                await timeout(10);
                                 zip.extractEntryTo(zipEntry.entryName, instDir, /*maintainEntryPath*/true, /*overwrite*/true);
                             }
                         }
@@ -269,7 +295,7 @@
                             let prm = downloadFile(join(modsDir, dl.fileName), dl.downloadUrl);
                             promises.push(prm);
                             let info = await twitchappapi.getAddonInfo(file.projectID);
-                            mods[dl.fileName.toLowerCase().trim()] = {info: info, name: info.name, url: info.websiteUrl, fileInfo: dl};
+                            mods[dl.fileName.trim()] = {info: info, name: info.name, url: info.websiteUrl, fileInfo: dl};
                         }
                     }
 
@@ -288,7 +314,8 @@
 
                 } catch (error) 
                 {
-                    alert('Invalid zip file! ' + error.message);    
+                    console.error(error);
+                    alert('Invalid zip file! ' + error.message);
                 }
             }
 
@@ -359,7 +386,7 @@
                         webPreferences: {nodeIntegration: true}
                     }
                 );
-                win.loadURL(`file://${__dirname}/console.html?name=${encodeURI(name)}`);
+                win.loadURL(`file://${__dirname}/console.html?name=${encodeURIComponent(name)}`);
    
                 win.on('close', event => 
                 {
@@ -474,7 +501,7 @@
                 if(!inst) return;
                 if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
 
-                let win = await window.open('modManager.html?name='+encodeURI(name), '_blank', 'nodeIntegration=yes, width=895, height=540');
+                let win = await window.open('modManager.html?name='+encodeURIComponent(name), '_blank', 'nodeIntegration=yes, width=895, height=540');
              
                 ipcRenderer.on('stoppedPlaying', async (event, data) =>
                 {
@@ -498,10 +525,25 @@
             }
         </script>
 
-        <a href="#" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes')" class="float"><i class="fa fa-plus my-float"></i></a>
-
         <div class="longcat" id="longcat" style="position: absolute; top: 100px; left: 70%; z-index: 2; display: none;">
             <img src="img/verylongcat.png">
         </div>
+
+        <footer class="fowoter">
+            <div class="text-center">
+                <span id="releases-info">Loading release info...</span>
+            </div>
+        </footer>
+
+        <script>
+            async function updateRelease()
+            {
+                let latestRelease = await fetch('https://api.github.com/repos/supertransformer/SoupLauncher/releases/latest');
+                let jsonRelease = await latestRelease.json();
+                console.log(jsonRelease);
+                document.getElementById('releases-info').innerHTML = `Latest update: ${jsonRelease.tag_name} <b style="cursor: pointer;" onclick='shell.openItem("${jsonRelease.html_url}")'>More info</b>`;
+            }
+            updateRelease();
+        </script>
     </body>
 </html>

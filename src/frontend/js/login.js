@@ -7,7 +7,7 @@ function login()
 
     let elem = document.getElementById('submit');
     elem.disabled = true;
-    elem.innerHTML = "Logging in please wait...";
+    elem.innerHTML = "Logging in please wait(loading forge versions)...";
 
     ipcRenderer.send('submitForm', {email: email, password: password});
     return false;

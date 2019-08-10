@@ -1,7 +1,7 @@
 {
   "name": "souplauncher",
   "productName": "Soup Launcher",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "",
   "main": "dest/main.js",
   "scripts": {
@@ -33,7 +33,7 @@
     "node-fetch": "^2.6.0",
     "treelike-task": "0.0.16",
     "ts-minecraft": "^5.2.6",
-    "twitchappapi": "^1.0.1",
+    "twitchappapi": "^1.0.4",
     "typescript": "^3.5.3",
     "uuid": "^3.3.2",
     "ws": "^7.1.1",
@@ -43,12 +43,12 @@
   "devDependencies": {
     "@types/bytebuffer": "^5.0.40",
     "@types/got": "^9.6.5",
-    "@types/jquery": "^3.3.30",
+    "@types/jquery": "^3.3.31",
     "@types/long": "^4.0.0",
-    "@types/node": "^12.6.8",
+    "@types/node": "^12.7.1",
     "@types/uuid": "^3.4.4",
     "@types/yauzl": "^2.9.1",
-    "electron": "^5.0.8",
+    "electron": "^5.0.9",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.0.4",
     "electron-winstaller": "^3.0.4"

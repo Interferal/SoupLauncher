@@ -1,0 +1,3 @@
+* complete design 100% (background)
+* complete curse forge modpack browser
+* fix import not working on the AUR build

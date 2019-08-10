@@ -1,9 +1,12 @@
 import { Version, Auth, ForgeWebPage, MojangService } from 'ts-minecraft';
 import { app, BrowserWindow, ipcMain, autoUpdater, dialog } from "electron";
 
-import { createInstance } from './instanceManager'
-
+import { createInstance, getWorkingDir } from './instanceManager'
 import { Store } from './store';
+import { join } from 'path';
+import { mkdirSync, existsSync, exists, createWriteStream, unlinkSync } from 'fs';
+
+const fetch = require('node-fetch');
 
 var discordRichPresence;
 
@@ -144,14 +147,15 @@ const store = new Store(
 
 let win: BrowserWindow;
 
-async function checkVersions()
+async function checkVersions(forceRefresh = false)
 {
 	let versions = await Version.updateVersionMeta();
-	let forgeVersions: any = {};
+	let forgeVersions: any = store.get('forgeVersions');
+	if(forgeVersions === undefined) forgeVersions = {};
 	store.set('versions', versions);
 	console.log('Fetched minecraft versions, latest is ' + versions.latest.release);
 
-	if(!store.get('forgeVersions'))
+	if(!store.get('forgeVersions') || forceRefresh)
 	{
 		for(let i = 0; i < versions.versions.length; i++)
 		{
@@ -160,12 +164,18 @@ async function checkVersions()
 
 			try 
 			{
-				let forgeVer = await ForgeWebPage.getWebPage({mcversion: ver.id, fallback: forgeVersions[ver.id]});
+				let fallback = undefined;
+				if(forgeVersions[ver.id])
+				{
+					fallback = forgeVersions[ver.id];
+				}
+
+				let forgeVer = await ForgeWebPage.getWebPage({mcversion: ver.id, fallback: fallback});
 				forgeVersions[ver.id] = forgeVer;
 				console.log('Fetched forge versions for mc ' + ver.id);
 			} catch (error) 
 			{
-				console.log('No forge versions found for mc ' + ver.id);
+				console.log('No forge versions found for mc ' + ver.id + ' ('+error.message+')');
 			}
 		}
 		store.set('forgeVersions', forgeVersions);
@@ -187,7 +197,10 @@ async function createWindow()
 		process.exit();
 	});
 	
-	//win.setMenu(null);
+	if(!isDev)
+	{
+		win.setMenu(null);
+	}
 
 	if(!store.get('memory'))
 	{
@@ -232,7 +245,7 @@ async function createWindow()
 
 	win.loadURL(`file://${__dirname}/../src/frontend/index.html`);
 	
-	checkVersions();
+	checkVersions(true);
 }
 
 ipcMain.on('submitForm', async (event: any, data: any) =>
@@ -309,6 +322,56 @@ ipcMain.on('stoppedPlaying', async (event: any, data: any) =>
 	console.log('stopped playing ' + data.instance.folder);
 	win.webContents.send('stoppedPlaying', data);
 });
+
+ipcMain.on('installModPack', async (event: any, data: any) =>
+{
+	console.log('got msg to install modpack, downloading zip '+data.zipUrl+'...');
+	let modpackZips = join(getWorkingDir(), 'sharedFiles', 'modpackZips');
+
+	if(!existsSync(modpackZips))
+	{
+		mkdirSync(modpackZips);
+	}
+	
+	let fileName = data.zipUrl.split('/');
+	fileName = fileName[fileName.length - 1];
+	let file = join(modpackZips, fileName);
+	data.zipFile = file;
+	
+	console.log('saving under: ' + fileName);
+
+	if(!existsSync(file))
+	{
+		console.log('was not found, downloading!');
+		await downloadFile(file, data.zipUrl);
+		console.log('Downloaded ' + fileName);
+	}
+	
+	win.webContents.send('installPackDL', data);
+});
+
+async function downloadFile(target: any, url: any)
+{
+	console.log('Downloading ' + url + ' to ' + target);
+	const res = await fetch(url);
+	return await new Promise((resolve, reject) => 
+	{
+		const fileStream = createWriteStream(target);
+		res.body.pipe(fileStream);
+		res.body.on("error", (err: Error) => 
+		{
+			console.log('Could not download ' + url);
+			if(existsSync(target)) unlinkSync(target);
+			reject(err);
+		});
+		fileStream.on("finish", function() 
+		{
+			console.log('Downloaded ' + url);
+			resolve();
+		});
+	});
+}
+
 updatePresence('Lurking', 'Idle');
 
 app.on('ready', createWindow);

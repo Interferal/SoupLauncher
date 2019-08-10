@@ -272,6 +272,7 @@ async function showInstalledMods(search = "")
 		} 
 		code += `<li class="list-group-item modItem"><div class="modDiv">`;
 		let mod = modsList[modJar];
+		if(mod == undefined) mod = modsList[modJar.toLowerCase()];
 
 		code += `<button class="btn-delete" onclick="this.parentElement.parentElement.remove(); deleteModFromInstance('${modJar}')">Delete</button>`;
 		
@@ -530,7 +531,7 @@ async function installMod(id: number, iteration = 0)
 		}       
 	});
 	let info = await twitchappapi.getAddonInfo(id);
-	mods[selectedVersion.fileName.toLowerCase().trim()] = {info: info, name: info.name, url: info.websiteUrl, fileInfo: selectedVersion};
+	mods[selectedVersion.fileName.trim()] = {info: info, name: info.name, url: info.websiteUrl, fileInfo: selectedVersion};
 	saveModList();
 	
 	if(selectedVersion.dependencies && iteration < 3)
@@ -585,15 +586,18 @@ export async function resolveModList(modsFolder: string)
 		if(modJar.endsWith('.jar') || modJar.endsWith('.jar.disabled'))
 		{
 			let paff: string = path.join(modsFolder, modJar);
-			let file: Buffer = plS.readFileSync(paff);
-
-			let cleanedFileName = modJar.replace('.jar.disabled', '.jar').toLowerCase().trim();
+			let cleanedFileName = modJar.replace('.jar.disabled', '.jar').trim();
 			if(mods[cleanedFileName])
 			{
 				result[cleanedFileName] = mods[cleanedFileName];
 				continue;
+			} else
+			{
+				console.log('Not found in mods array: ' + cleanedFileName);
+
 			}
 	
+			let file: Buffer = plS.readFileSync(paff);
 			let metaData: Promise<Forge.MetaData[]> = Forge.meta(file);
 
 			metaData.then((metaData: Forge.MetaData[]) =>
@@ -612,7 +616,7 @@ export async function resolveModList(modsFolder: string)
 					if(data.modid != 'examplemod') cleanedData.push(data);
 				}
 	
-				result[modJar.toLowerCase().trim()] = cleanedData;
+				result[modJar.trim()] = cleanedData;
 			});
 
 			promises.push(metaData);

@@ -18,18 +18,15 @@
 		<div id="searchMods">Search mods <input type="text" id="modSearch" placeholder="Search..."></div>
 		
 		<script>
-		
-		//setup before functions
-		let typingTimer;                //timer identifier
-		let doneTypingInterval = 1000;  //time in ms (5 seconds)
-		let myInput = document.getElementById('modSearch');
+			let typingTimer;
+			let doneTypingInterval = 1000;
+			let myInput = document.getElementById('modSearch');
 
-		//on keyup, start the countdown
-		myInput.addEventListener('keyup', () => 
-		{
-			clearTimeout(typingTimer);
-			typingTimer = setTimeout(getMods, doneTypingInterval);
-		});
+			myInput.addEventListener('keyup', () => 
+			{
+				clearTimeout(typingTimer);
+				typingTimer = setTimeout(getMods, doneTypingInterval);
+			});
 		</script>
 
 		<div class="container kontainer" id="container">
