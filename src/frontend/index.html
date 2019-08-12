@@ -100,7 +100,7 @@
 		        remote.getCurrentWindow().loadURL(`file://${__dirname}/login.html?flash=${encodeURI('Logged out successfully!<br> Login again.')}`);
             }
 
-            async function downloadFile(target, url)
+            async function downloadFile(target, url, attempt = 0)
             {
                 console.log('Downloading ' + url + ' to ' + target);
                 const res = await fetch(url);
@@ -110,7 +110,13 @@
                     res.body.pipe(fileStream);
                     res.body.on("error", (err) => 
                     {
+                        attempt++;
                         console.log('Could not download ' + url);
+                        if(attempt < 4)
+                        {
+                            console.error('Failed to download ' + url + 'trying again, attempt #' + attempt);
+                            return downloadFile(target, url, attempt);
+                        }
                         reject(err);
                     });
                     fileStream.on("finish", function() 
@@ -265,7 +271,6 @@
                             if(zipEntry.entryName.includes('info.json')) continue;
                             if(zipEntry.entryName.startsWith(manifest.overrides) || (manifest.mmcPack && zipEntry.entryName.includes(manifest.overrides))) 
                             {
-                                await timeout(10);
                                 zip.extractEntryTo(zipEntry.entryName, instDir, /*maintainEntryPath*/true, /*overwrite*/true);
                             }
                         }
@@ -291,10 +296,38 @@
                         
                         if(file.required)
                         {
-                            let dl = await twitchappapi.getAddonFileInformation(file.projectID, file.fileID);
+                            let attempt = 0;
+                            let dl = undefined;
+                            while(dl === undefined)
+                            {
+                                try 
+                                {
+                                    attempt++;
+                                    console.log('Requesting getAddonFileInformation for projectID: ' + file.projectID + ' and fileID: ' + file.fileID + ' attempt #'+attempt);
+                                    dl = await twitchappapi.getAddonFileInformation(file.projectID, file.fileID);   
+                                } catch (error) 
+                                {
+                                    console.error('Failed to request getAddonFileInformation for ' + file.projectID + ', trying again...');
+                                    dl = undefined;
+                                }
+                            }
                             let prm = downloadFile(join(modsDir, dl.fileName), dl.downloadUrl);
                             promises.push(prm);
-                            let info = await twitchappapi.getAddonInfo(file.projectID);
+                            let info = undefined;
+                            attempt = 0;
+                            while(info === undefined)
+                            {
+                                try 
+                                {
+                                    attempt++;
+                                    console.log('Requesting addonInfo for projectID: ' + file.projectID + ' attempt #'+attempt);
+                                    info = await twitchappapi.getAddonInfo(file.projectID);
+                                } catch (error) 
+                                {
+                                    console.error('Failed to request addonInfo for ' + file.projectID + ', trying again...');
+                                    info = undefined;    
+                                }
+                            }
                             mods[dl.fileName.trim()] = {info: info, name: info.name, url: info.websiteUrl, fileInfo: dl};
                         }
                     }
@@ -524,10 +557,6 @@
                 shell.openItem(join(instanceManager.getWorkingDir(), 'instances', inst.folder));
             }
         </script>
-
-        <div class="longcat" id="longcat" style="position: absolute; top: 100px; left: 70%; z-index: 2; display: none;">
-            <img src="img/verylongcat.png">
-        </div>
 
         <footer class="fowoter">
             <div class="text-center">

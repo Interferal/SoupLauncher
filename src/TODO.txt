@@ -1,3 +1,2 @@
-* complete design 100% (background)
-* complete curse forge modpack browser
-* fix import not working on the AUR build
+* sometimes the search for the curse modpack browser does not work, debug.
+* fix import not working on the AUR builds
