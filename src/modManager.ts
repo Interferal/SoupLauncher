@@ -436,7 +436,7 @@ async function getMods(index = 0)
 		document.getElementById('grouplist').innerHTML += code;
 	}
 
-	if(filteredSearchResults.length < 3)
+	if(filteredSearchResults.length < 5)
 	{
 		getMods(index + 25);
 	}

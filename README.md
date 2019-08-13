@@ -1,5 +1,6 @@
 # Soup Launcher
 A Minecraft launcher made for people who love Modded.
+
 Made using HTML/CSS/Typescript/Javascript & Electron
 
 Supports modpack installation/importing from Curseforge and MultiMC 
@@ -40,4 +41,5 @@ npm run start
 ![About](https://i.imgur.com/XiiU31p.png)
 
 This project is licensed under the GNU GPL V3.0
+
 NOT OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT 

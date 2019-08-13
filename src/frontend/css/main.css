@@ -80,9 +80,15 @@ body
 	margin-left: 20px;
 }
 
-.location-image img
+.location-image div
 {
+	width: 50px;
+	height: 50px;
 	box-shadow: 0px 0px 5px 2px rgba(148,148,148,0.77);
+	background: url('../img/dirtblock.jpg');
+	background-size: contain;
+    background-repeat: no-repeat;
+	background-blend-mode: hue;
 }
 
 .form-control:focus 

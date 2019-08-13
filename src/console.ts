@@ -105,8 +105,16 @@ async function launchInstance(instance: any, auth: any)
 	let memory = store.get('memory');
 	let javaArgs = store.get('javaArgs').split(' ');
 
+	console.log('Diagnose output: ');
+	console.log(await Version.diagnose(version, resourcePath));
 	try 
 	{
+		if(!store.get('javaArgs'))
+		{
+			console.log('java args were empty!');
+			
+			javaArgs = undefined;
+		}
 		console.log('Launching with Java args ' + javaArgs);
 		proc = await Launcher.launch({extraExecOption: {detached: true, cwd: gamePath} ,version: version, gamePath: gamePath, resourcePath: resourcePath, javaPath: javaPath, auth: auth, launcherBrand: "SoupLauncher", launcherName: "soup", minMemory: memory.minMemory, maxMemory: memory.maxMemory, extraJVMArgs: javaArgs});
 		proc.unref();

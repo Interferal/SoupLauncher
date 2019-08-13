@@ -260,6 +260,14 @@
                     let instDir = join(instanceManager.getWorkingDir(), 'instances', name);
                     let modsDir = join(instDir, 'mods');
 
+                    let update = function(downloading = true, customColor = undefined)
+                    {
+                        let json = JSON.parse(fs.readFileSync(join(instDir, 'info.json')));
+                        json.downloading = downloading;
+                        json.customColor = customColor;
+                        fs.writeFileSync(join(instDir, 'info.json'), JSON.stringify(json));
+                    }
+
                     if(manifest.overrides)
                     {
                         console.log(manifest.overrides);
@@ -285,14 +293,25 @@
                         });
                     }
 
+                    update(true, 'rgb(0, 120, 0)');
+
                     if(!fs.existsSync(modsDir)) fs.mkdirSync(modsDir);
                     
                     let promises = [];
                     let mods = {};
 
+                    let green = 120;
+
                     for (let i = 0; i < manifest.files.length; i++) 
                     {
                         const file = manifest.files[i];
+
+                        if(i % 10 == 0 && green < 255)
+                        {
+                            green += 5;
+                            console.log('setting green to ' + green + '('+manifest.files.length+' / '+i+')');
+                            update(true, 'rgb(0, ' + green + ', 0)');
+                        }
                         
                         if(file.required)
                         {
@@ -334,9 +353,7 @@
 
                     Promise.all(promises).then(() =>
                     {
-                        let json = JSON.parse(fs.readFileSync(join(instDir, 'info.json')));
-                        json.downloading = false;
-                        fs.writeFileSync(join(instDir, 'info.json'), JSON.stringify(json));
+                        update(false);
                         fs.writeFileSync(join(instDir, 'mods.json'), JSON.stringify(mods));
                         console.log('Set info.json downloading = false and saved instance mods.json');
                     }).catch(err =>
@@ -365,38 +382,40 @@
                
                 let instances = instanceManager.getInstances();
 
-                // for(var inst in instances)
-                // {
-                //     let instance = instances[inst];
-                //     if(!instance.info.dateCreated)
-                //     {
-                //         console.log('instance ' + instance.info.name + ' did not have dateCreated');
-                //         let instanceFolder = join(instanceManager.getWorkingDir(), 'instances', instance.info.name, 'info.json');
-                //         let infoJson = JSON.parse(fs.readFileSync(instanceFolder));
-                //         console.log(infoJson);
-                //         infoJson.info.dateCreated = new Date().getTime();
-                //         fs.writeFileSync(instanceFolder, JSON.stringify(infoJson));
-                //     }
-                // }
+                let instancesArray = [];
 
-                let counter = 0;
                 for(var inst in instances)
                 {
-                    inst = instances[inst];
+                    instancesArray.push(instances[inst]);
+                }
 
-                    let status = inst.info.downloading ? "downloading.jpg":"dirtblock.jpg";
+                instancesArray = instancesArray.sort(function(a, b) 
+                {
+                    a = new Date(a.info.dateCreated);
+                    b = new Date(b.info.dateCreated);
+                    return a>b ? -1 : a<b ? 1 : 0;
+                });
+
+                for(var inst in instancesArray)
+                {
+                    inst = instancesArray[inst];
+
+                    let add = '';
+
+                    if(inst.info.customColor)
+                    {
+                        add = `style="background-color: ${inst.info.customColor};"`;
+                    }
 
                     container.innerHTML += `
-                <article class="location-listing">
+                <article class="location-listing" ${add}>
                     <a class="location-title" href="#" oncontextmenu="return openMenu('${inst.folder}')" ondblclick="launchInstance('${inst.folder}')">${inst.info.displayName}</a>
                     <div class="location-image">
                     <a href="#" oncontextmenu="return openMenu('${inst.folder}')" onclick="launchInstance('${inst.folder}')">
-                        <img src="img/${status}" alt="${inst.info.name}">
+                        <div></div>
                     </a>
                     </div>
                 </article>`;
-
-                    counter++;
                 }
             }
 
@@ -458,6 +477,7 @@
                 let added = `
                 <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
                     ${extra ? '<a href="#" class="rc-menu-item" onclick="renameInstance(\''+ name +'\');this.parentElement.remove();">Rename</a>':''}
+                    
                     ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\''+name+'\');this.parentElement.remove();">Mod Manager</a>':''}
                     <a href="#" class="rc-menu-item" onclick="openFolder('${name}');this.parentElement.remove();">Open Folder</a>
                     ${extra}
@@ -544,6 +564,17 @@
                     btn.classList.toggle('inst-menu-item-launched');
                     btn.disabled = false;`);
                 });
+            }
+
+            async function openSettings(name)
+            {
+                let instances = instanceManager.getInstances();
+
+                let inst = instances[name];
+                if(!inst) return;
+                if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
+
+                let win = await window.open('settingsforinstance.html?name='+encodeURIComponent(name), '_blank', 'nodeIntegration=yes, width=895, height=540');
             }
 
             const { shell } = require('electron');
