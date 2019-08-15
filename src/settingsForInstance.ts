@@ -53,7 +53,10 @@ function injectIntoContainer(data: string)
 
 async function showJavaSettings()
 {
-    
+    injectIntoContainer
+    (
+        ``
+    );
 }
 
 async function showVersionSettings()

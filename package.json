@@ -32,7 +32,7 @@
     "long": "^4.0.0",
     "node-fetch": "^2.6.0",
     "treelike-task": "0.0.16",
-    "ts-minecraft": "^5.2.6",
+    "ts-minecraft": "^5.2.10",
     "twitchappapi": "^1.0.5",
     "typescript": "^3.5.3",
     "uuid": "^3.3.2",
