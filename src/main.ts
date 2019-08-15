@@ -326,7 +326,14 @@ ipcMain.on('stoppedPlaying', async (event: any, data: any) =>
 ipcMain.on('installModPack', async (event: any, data: any) =>
 {
 	console.log('got msg to install modpack, downloading zip '+data.zipUrl+'...');
-	let modpackZips = join(getWorkingDir(), 'sharedFiles', 'modpackZips');
+	let sharedFiles = join(getWorkingDir(), 'sharedFiles');
+	let modpackZips = join(sharedFiles, 'modpackZips');
+
+	if(!existsSync(sharedFiles))
+	{
+		mkdirSync(sharedFiles);
+	}
+	
 
 	if(!existsSync(modpackZips))
 	{
