@@ -447,8 +447,8 @@ function openMenu(name)
 
     let added = `
     <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
+        <a href="#" class="rc-menu-item" onclick="openSettings('${name}');this.parentElement.remove();">Settings</a>
         ${extra ? '<a href="#" class="rc-menu-item" onclick="renameInstance(\''+ name +'\');this.parentElement.remove();">Rename</a>':''}
-        
         ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\''+name+'\');this.parentElement.remove();">Mod Manager</a>':''}
         <a href="#" class="rc-menu-item" onclick="openFolder('${name}');this.parentElement.remove();">Open Folder</a>
         ${extra}

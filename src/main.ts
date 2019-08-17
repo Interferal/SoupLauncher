@@ -1,10 +1,11 @@
-import { Version, Auth, ForgeWebPage, MojangService } from 'ts-minecraft';
+import { Version, Auth, ForgeWebPage, MojangService, Forge, Installer } from '@xmcl/minecraft-launcher-core';
 import { app, BrowserWindow, ipcMain, autoUpdater, dialog } from "electron";
 
 import { createInstance, getWorkingDir } from './instanceManager'
 import { Store } from './store';
 import { join } from 'path';
-import { mkdirSync, existsSync, exists, createWriteStream, unlinkSync } from 'fs';
+import { mkdirSync, existsSync, exists, createWriteStream, unlinkSync, readFileSync, writeFileSync, readdirSync } from 'fs';
+import ForgeInstaller from '@xmcl/forge-installer';
 
 const fetch = require('node-fetch');
 
@@ -126,7 +127,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) =>
 		message: process.platform === 'win32' ? releaseNotes : releaseName,
 		detail: 'A new version has been downloaded. Restart the application to apply the updates.'
 	}
-
+	//@ts-ignore
 	dialog.showMessageBox(dialogOpts, (response) => 
 	{
 		if (response === 0) autoUpdater.quitAndInstall();
@@ -149,7 +150,7 @@ let win: BrowserWindow;
 
 async function checkVersions(forceRefresh = false)
 {
-	let versions = await Version.updateVersionMeta();
+	let versions = await Installer.updateVersionMeta();
 	let forgeVersions: any = store.get('forgeVersions');
 	if(forgeVersions === undefined) forgeVersions = {};
 	store.set('versions', versions);
@@ -334,7 +335,6 @@ ipcMain.on('installModPack', async (event: any, data: any) =>
 		mkdirSync(sharedFiles);
 	}
 	
-
 	if(!existsSync(modpackZips))
 	{
 		mkdirSync(modpackZips);
@@ -355,6 +355,87 @@ ipcMain.on('installModPack', async (event: any, data: any) =>
 	}
 	
 	win.webContents.send('installPackDL', data);
+});
+
+ipcMain.on('changeInstance', async (event: any, data: any) => 
+{
+	let instanceRoot = join(getWorkingDir(), 'instances', data.instanceFolder);
+	// @ts-ignore
+	let info = JSON.parse(readFileSync(join(instanceRoot, 'info.json')));
+	let versions = join(getWorkingDir(), 'sharedFiles', 'versions');
+	let assetsDir = join(getWorkingDir(), 'sharedFiles');
+	let files = readdirSync(versions);
+
+	let update = function(downloading = true, customColor = undefined)
+	{
+		info.downloading = downloading;
+		info.customColor = customColor;
+		writeFileSync(join(instanceRoot, 'info.json'), JSON.stringify(info));
+	}
+
+	if(data.changed.version)
+	{
+		let versionFound;
+		files.forEach(folder =>
+		{
+			if(folder == data.changed.version.id)
+			{
+				versionFound = true;
+				return;
+			}
+		});
+
+		if(!versionFound)
+		{
+			console.log('Version not found, downloading mc ' + data.changed.version.id);
+			update(true, "rgb(0, 40, 0)");
+
+			console.log(`[${data.instanceFolder}] starting download [version jar]...`);
+			await Installer.installVersion('client', data.changed.version, assetsDir);
+			console.log(`[${data.instanceFolder}] finished download [version jar]`);
+			update(true, "rgb(0, 60, 0)");
+			console.log(`[${data.instanceFolder}] starting download [assets]...`);
+			await Installer.installAssets((await Version.parse(assetsDir, data.changed.version.id)));
+			console.log(`[${data.instanceFolder}] finished download [assets]`);
+			update(true, "rgb(0, 80, 0)");
+			console.log(`[${data.instanceFolder}] starting download [libraries]...`);
+			await Installer.installLibraries((await Version.parse(assetsDir, data.changed.version.id)));
+			console.log(`[${data.instanceFolder}] finished download [libraries]`);
+		}
+
+		info.version = data.changed.version;
+	}
+
+	if(data.changed.forge === undefined)
+	{
+		info.forge = undefined;
+	}
+
+	if(data.changed.forge)
+	{
+		let versionFound;
+		files.forEach(folder =>
+		{
+			if(folder.toLowerCase().includes('forge') && folder.toLowerCase().includes(info.version.id) && folder.toLowerCase().includes(data.changed.forge.version))
+			{
+				versionFound = true;
+				return;
+			}
+		});
+	
+		if(!versionFound)
+		{
+			console.log('Forge version not found, installing ' + data.changed.forge.version);
+			update(true, "rgb(0, 160, 0)");
+			console.log(`[${data.instanceFolder}] starting forge download...`);
+			await ForgeInstaller.install(data.changed.forge, assetsDir, {forceCheckDependencies: true});
+			console.log(`[${data.instanceFolder}] finished forge download`);
+		}
+
+		info.forge = data.changed.forge;
+	}
+
+	update(false);
 });
 
 async function downloadFile(target: any, url: any)

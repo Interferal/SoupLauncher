@@ -3,7 +3,7 @@ const twitchappapi = require('twitchappapi');
 const instanceManager = require('../../dest/instanceManager.js');
 const fetch = require('node-fetch');
 
-import { Forge } from 'ts-minecraft';
+import { Forge } from '@xmcl/minecraft-launcher-core';
 import { shell, ipcRenderer, remote } from 'electron';
 
 // @ts-ignore

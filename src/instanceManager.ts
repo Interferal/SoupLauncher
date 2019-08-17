@@ -1,6 +1,11 @@
-import { VersionMeta, VersionMetaList, Version, MinecraftLocation, Launcher, Auth, MojangService, ForgeWebPage, Forge, MinecraftFolder  } from 'ts-minecraft';
+import { Forge } from '@xmcl/forge';
+import { ForgeInstaller } from '@xmcl/forge-installer';
+import { Version } from '@xmcl/version';
 import { readdirSync, mkdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
+import { ChildProcess } from 'child_process';
+import { Installer } from '@xmcl/installer';
+import { Launcher } from '@xmcl/minecraft-launcher-core';
 
 const electron = require('electron');
 
@@ -78,15 +83,15 @@ export async function createInstance(version: any, name: string, forge: any, don
 	update(true, "rgb(0, 40, 0)");
 
 	console.log(`[${nameLowerCase}] starting download [version jar]...`);
-	await Version.installVersion('client', version, assetsDir);
+	await Installer.installVersion('client', version, assetsDir);
 	console.log(`[${nameLowerCase}] finished download [version jar]`);
 	update(true, "rgb(0, 60, 0)");
 	console.log(`[${nameLowerCase}] starting download [assets]...`);
-	await Version.installAssets((await Version.parse(assetsDir, version.id)), assetsDir);
+	await Installer.installAssets((await Version.parse(assetsDir, version.id)));
 	console.log(`[${nameLowerCase}] finished download [assets]`);
 	update(true, "rgb(0, 80, 0)");
 	console.log(`[${nameLowerCase}] starting download [libraries]...`);
-	await Version.installLibraries((await Version.parse(assetsDir, version.id)), assetsDir);
+	await Installer.installLibraries((await Version.parse(assetsDir, version.id)));
 	console.log(`[${nameLowerCase}] finished download [libraries]`);
 	update(true, "rgb(0, 100, 0)");
 
@@ -94,7 +99,18 @@ export async function createInstance(version: any, name: string, forge: any, don
 	{
 		update(true, "rgb(0, 160, 0)");
 		console.log(`[${nameLowerCase}] starting forge download...`);
-		await Forge.install(forge, assetsDir, {forceCheckDependencies: true});
+		await ForgeInstaller.install(forge, assetsDir, {forceCheckDependencies: true});
+		let files = readdirSync(join(assetsDir, 'versions'));
+		let fVer;
+		files.forEach(folder =>
+		{
+			if(folder.toLowerCase().includes('forge') && folder.toLowerCase().includes(version) && folder.toLowerCase().includes(forge.version))
+			{
+				fVer = folder;
+				return;
+			}
+		});
+		await Installer.installDependencies((await Version.parse(assetsDir, fVer)));
 		console.log(`[${nameLowerCase}] finished forge download`);
 		if(dontMarkDone) update(true, "rgb(0, 255, 0)");
 	}

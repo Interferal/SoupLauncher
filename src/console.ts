@@ -2,10 +2,14 @@ let Store = require('../../dest/store.js').Store;
 let instanceManager = require('../../dest/instanceManager.js');
 let ipcRenderer = require('electron').ipcRenderer;
 
-import { Version, Launcher, Forge } from 'ts-minecraft';
+import { Forge } from '@xmcl/forge';
+import { ForgeInstaller } from '@xmcl/forge-installer';
+import { Version } from '@xmcl/version';
 import { readdirSync, mkdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ChildProcess } from 'child_process';
+import { Installer } from '@xmcl/installer';
+import { Launcher } from '@xmcl/minecraft-launcher-core';
 
 let instances = instanceManager.getInstances();
 var $_GET = {};
@@ -81,7 +85,7 @@ async function launchInstance(instance: any, auth: any)
 		{
 			console.log('forge was not found, downloading.');
 			console.log(`[${instance.folder}] starting forge download...`);
-			await Forge.install(instance.info.forge, resourcePath, {forceCheckDependencies: true});
+			await ForgeInstaller.install(instance.info.forge, resourcePath, {forceCheckDependencies: true});
 			console.log(`[${instance.folder}] finished forge download`);
 
 			files.forEach(folder =>
@@ -92,11 +96,13 @@ async function launchInstance(instance: any, auth: any)
 					return;
 				}
 			});
+
+			console.log('launching: ' + version);
 		}
 
+		console.log('diagnose: ');
 		console.log('checkin dependencies');
-		await Version.checkDependencies((await Version.parse(resourcePath, version)), resourcePath);
-		console.log(await Version.diagnose(version, resourcePath));
+		await Installer.installDependencies((await Version.parse(resourcePath, version)));
 	}
 
     const javaPath: string = "java";
@@ -105,8 +111,6 @@ async function launchInstance(instance: any, auth: any)
 	let memory = store.get('memory');
 	let javaArgs = store.get('javaArgs').split(' ');
 
-	console.log('Diagnose output: ');
-	console.log(await Version.diagnose(version, resourcePath));
 	try 
 	{
 		if(!store.get('javaArgs'))
@@ -154,7 +158,6 @@ async function launchInstance(instance: any, auth: any)
 		if(code == 0) window.close();
 	});
 }
-
 function scrollToBottom()
 {
 	var scrollingElement = (document.scrollingElement || document.body);
