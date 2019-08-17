@@ -41,7 +41,6 @@ if(inst.info.downloading)
 let doc = document.getElementById('title');
 doc.innerHTML += inst.info.displayName;
 
-
 function injectIntoContainer(data: string)
 {
 	let elem: any = document.getElementById('container');
