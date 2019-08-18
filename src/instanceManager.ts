@@ -100,18 +100,21 @@ export async function createInstance(version: any, name: string, forge: any, don
 		update(true, "rgb(0, 160, 0)");
 		console.log(`[${nameLowerCase}] starting forge download...`);
 		await ForgeInstaller.install(forge, assetsDir, {forceCheckDependencies: true});
+		console.log(`[${nameLowerCase}] finished forge download...`);
+		
 		let files = readdirSync(join(assetsDir, 'versions'));
 		let fVer;
 		files.forEach(folder =>
 		{
-			if(folder.toLowerCase().includes('forge') && folder.toLowerCase().includes(version) && folder.toLowerCase().includes(forge.version))
+			if(folder.toLowerCase().includes('forge') && folder.toLowerCase().includes(version.id) && folder.toLowerCase().includes(forge.version))
 			{
 				fVer = folder;
 				return;
 			}
 		});
+		console.log(`[${nameLowerCase}] starting forge dependencies(${fVer}) download...`);
 		await Installer.installDependencies((await Version.parse(assetsDir, fVer)));
-		console.log(`[${nameLowerCase}] finished forge download`);
+		console.log(`[${nameLowerCase}] finished forge dependencies download`);
 		if(dontMarkDone) update(true, "rgb(0, 255, 0)");
 	}
 	console.log(`[${nameLowerCase}] instance installation completed.`);

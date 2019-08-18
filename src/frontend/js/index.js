@@ -143,8 +143,11 @@ ipcRenderer.on('installPackDL', async (event, data) =>
 
 async function importPack(zipFile = undefined, mmcPackName = undefined)
 {
-    if(!zipFile) zipFile = dialog.showOpenDialog({title: 'Select Curse/MultiMC Modpack ZIP', properties: ['openFile'], filters: [{ name: 'Zip Files', extensions: ['zip'] }]});
-    if(!zipFile) return;
+    if(!zipFile) zipFile = await dialog.showOpenDialog({title: 'Select Curse/MultiMC Modpack ZIP', properties: ['openFile'], filters: [{ name: 'Zip Files', extensions: ['zip'] }]});
+    if(zipFile.filePaths)
+    {
+        zipFile = zipFile.filePaths;
+    }
     zipFile = zipFile[0];
 
     try 
