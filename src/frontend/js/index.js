@@ -446,12 +446,13 @@ function openMenu(name)
 
     let extra = store.get('playing').playing ? '':`
     <a href="#" class="rc-menu-item" onclick="deleteInstance('${name}');this.parentElement.remove();">Delete instance</a>
+    <a href="#" class="rc-menu-item" onclick="exportInstance('${name}');this.parentElement.remove();">Export instance</a>
     `;
 
     let added = `
     <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
-        <a href="#" class="rc-menu-item" onclick="openSettings('${name}');this.parentElement.remove();">Settings</a>
         ${extra ? '<a href="#" class="rc-menu-item" onclick="renameInstance(\''+ name +'\');this.parentElement.remove();">Rename</a>':''}
+        <a href="#" class="rc-menu-item" onclick="openSettings('${name}');this.parentElement.remove();">Settings</a>
         ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\''+name+'\');this.parentElement.remove();">Mod Manager</a>':''}
         <a href="#" class="rc-menu-item" onclick="openFolder('${name}');this.parentElement.remove();">Open Folder</a>
         ${extra}
@@ -518,6 +519,98 @@ function deleteInstance(name)
 
         deleteFolderRecursive(join(instanceManager.getWorkingDir(), 'instances', inst.folder));
     }
+}
+
+async function exportInstance(name)
+{
+    let instances = instanceManager.getInstances();
+
+    let inst = instances[name];
+    if(!inst) return;
+    if(inst.info.downloading) return alert('The Instance is Currently Downloading!');
+
+    let savePath = await dialog.showSaveDialog(null, {defaultPath: inst.folder, title: 'Save zip', filters: [{ name: 'ZIP File', extensions: ['zip'] }]});
+
+    if(!savePath.filePath) return;
+    savePath = savePath.filePath;
+
+    console.log(savePath);
+
+    let instanceFolder = join(instanceManager.getWorkingDir(), 'instances', inst.folder);    
+    let manifest = {};
+
+    manifest.minecraft = {version: inst.info.version.id};
+    if(inst.info.forge)
+    {
+        manifest.minecraft.modLoaders = [{id: 'forge-' + inst.info.forge.version, primary: true}];
+    }
+
+    manifest.manifestType = 'minecraftModpack';
+    manifest.manifestVersion = 1;
+    manifest.name = inst.info.displayName;
+    manifest.overrides = 'overrides';
+    manifest.files = [];
+
+    const zip = new AdmZip();
+
+    zip.addFile(manifest.overrides + '/', Buffer.alloc(0), 'over writes');
+    
+
+    let files = fs.readdirSync(instanceFolder);
+
+    let blacklist = ['info.json', 'logs', 'mods', 'realms_persistence.json'];
+
+    for (let i = 0; i < files.length; i++) 
+    {
+        if(blacklist.includes(files[i])) continue;
+
+        const file = join(instanceFolder, files[i]);
+        if(fs.lstatSync(file).isDirectory())
+        {
+            zip.addLocalFolder(file, manifest.overrides+'/'+files[i]);
+            continue;
+        } 
+
+        zip.addLocalFile(file, manifest.overrides);
+    }
+
+    let modsJsonFile = join(instanceFolder, 'mods.json');
+    let modsDirectory = join(instanceFolder, 'mods');
+
+    if(fs.existsSync(modsJsonFile) && fs.existsSync(modsDirectory))
+    {
+        let mods = JSON.parse(fs.readFileSync(modsJsonFile));
+        let modsInDir = fs.readdirSync(modsDirectory);
+    
+        for (let file in modsInDir) 
+        {
+            const modFile = modsInDir[file];
+            const mod = mods[modFile];
+            const modPath = join(modsDirectory, modFile);
+
+            if(fs.lstatSync(modPath).isDirectory())
+            {
+                zip.addLocalFolder(modPath, manifest.overrides + '/mods/' + modFile);
+
+                continue;
+            }
+
+            if(mod)
+            {
+                manifest.files.push({projectID: mod.info.id, fileID: mod.fileInfo.id, required: true});
+            } else
+            {
+                console.log('Found mod jar that was not in mods.jar list: ' + modFile + ', adding to overrides directory.');
+                zip.addLocalFile(modPath, manifest.overrides);
+            }
+        }
+    }
+
+    let jsonStringTmp = JSON.stringify(manifest);
+    zip.addFile('manifest.json', Buffer.alloc(jsonStringTmp.length, jsonStringTmp), 'instance information');
+    
+    zip.writeZip(savePath);
+    alert('Exported!');
 }
 
 async function openModManager(name)

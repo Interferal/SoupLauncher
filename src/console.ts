@@ -81,25 +81,6 @@ async function launchInstance(instance: any, auth: any)
 			}
 		});
 
-		if(version == instance.info.version.id)
-		{
-			console.log('forge was not found, downloading.');
-			console.log(`[${instance.folder}] starting forge download...`);
-			await ForgeInstaller.install(instance.info.forge, resourcePath, {forceCheckDependencies: true});
-			console.log(`[${instance.folder}] finished forge download`);
-
-			files.forEach(folder =>
-			{
-				if(folder.toLowerCase().includes('forge') && folder.toLowerCase().includes(version) && folder.toLowerCase().includes(instance.info.forge.version))
-				{
-					version = folder;
-					return;
-				}
-			});
-
-			console.log('launching: ' + version);
-		}
-
 		console.log('diagnose: ');
 		console.log('checkin dependencies');
 		await Installer.installDependencies((await Version.parse(resourcePath, version)));
