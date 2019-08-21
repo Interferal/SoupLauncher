@@ -558,7 +558,7 @@ async function exportInstance(name)
 
     let files = fs.readdirSync(instanceFolder);
 
-    let blacklist = ['info.json', 'logs', 'mods', 'realms_persistence.json'];
+    let blacklist = ['info.json', 'logs', 'mods', 'realms_persistence.json', 'lastlogin'];
 
     for (let i = 0; i < files.length; i++) 
     {
