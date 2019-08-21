@@ -1,7 +1,7 @@
 {
   "name": "souplauncher",
   "productName": "Soup Launcher",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "main": "dest/main.js",
   "scripts": {
@@ -17,7 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@xmcl/minecraft-launcher-core": "^0.1.10",
+    "@xmcl/minecraft-launcher-core": "^0.1.11",
+    "@xmcl/util": "^0.1.5",
     "adm-zip": "github:cthackers/adm-zip",
     "bytebuffer": "^5.0.1",
     "dialogs": "^2.0.1",
@@ -26,7 +27,7 @@
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "fast-html-parser": "^1.0.1",
-    "file-type": "^12.1.0",
+    "file-type": "^12.2.0",
     "fs-extra": "^8.1.0",
     "got": "^9.6.0",
     "java-asm": "0.0.4",
@@ -35,7 +36,7 @@
     "treelike-task": "0.0.16",
     "twitchappapi": "^1.0.5",
     "typescript": "^3.5.3",
-    "uuid": "^3.3.2",
+    "uuid": "^3.3.3",
     "ws": "^7.1.2",
     "yauzl": "^2.10.0",
     "yauzlw": "0.0.7"
@@ -48,7 +49,7 @@
     "@types/node": "^12.7.2",
     "@types/uuid": "^3.4.5",
     "@types/yauzl": "^2.9.1",
-    "electron": "^6.0.2",
+    "electron": "^6.0.3",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.0.4",
     "electron-winstaller": "^4.0.0"
