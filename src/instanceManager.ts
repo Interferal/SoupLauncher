@@ -85,19 +85,19 @@ export async function createInstance(version: any, name: string, forge: any, don
 	console.log(`[${nameLowerCase}] starting download [version jar]...`);
 	await Installer.installVersion('client', version, assetsDir);
 	console.log(`[${nameLowerCase}] finished download [version jar]`);
-	update(true, "rgb(0, 60, 0)");
+	if(!dontMarkDone) update(true, "rgb(0, 60, 0)");
 	console.log(`[${nameLowerCase}] starting download [assets]...`);
 	await Installer.installAssets((await Version.parse(assetsDir, version.id)));
 	console.log(`[${nameLowerCase}] finished download [assets]`);
-	update(true, "rgb(0, 80, 0)");
+	if(!dontMarkDone) update(true, "rgb(0, 80, 0)");
 	console.log(`[${nameLowerCase}] starting download [libraries]...`);
 	await Installer.installLibraries((await Version.parse(assetsDir, version.id)));
 	console.log(`[${nameLowerCase}] finished download [libraries]`);
-	update(true, "rgb(0, 100, 0)");
+	if(!dontMarkDone) update(true, "rgb(0, 100, 0)");
 
 	if(forge)
 	{
-		update(true, "rgb(0, 160, 0)");
+		if(!dontMarkDone) update(true, "rgb(0, 160, 0)");
 		console.log(`[${nameLowerCase}] starting forge download...`);
 		await ForgeInstaller.install(forge, assetsDir, {forceCheckDependencies: true});
 		console.log(`[${nameLowerCase}] finished forge download...`);

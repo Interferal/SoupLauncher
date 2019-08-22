@@ -18,6 +18,18 @@ let ipcRenderer = require('electron').ipcRenderer;
 var cursorX;
 var cursorY;
 
+document.addEventListener('keydown', (e) =>
+{
+	if (e.which === 123) 
+	{
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
+
+
 window.addEventListener("contextmenu", (e) =>
 {
     if(e.path[0].nodeName == 'HTML' || e.path[0].nodeName == 'DIV')

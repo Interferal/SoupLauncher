@@ -9,6 +9,20 @@ import { shell, ipcRenderer, remote } from 'electron';
 // @ts-ignore
 import { Config } from '../../dest/configParserv2';
 
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e: KeyboardEvent) =>
+{
+	if (e.which === 123) 
+	{
+		//@ts-ignore
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
+
 let instances = instanceManager.getInstances();
 var $_GET: any = {};
 if(document.location.toString().indexOf('?') !== -1) {

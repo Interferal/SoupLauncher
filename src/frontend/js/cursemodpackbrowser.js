@@ -2,9 +2,23 @@ const shell = require('electron').shell;
 const path = require('path');
 const twitchappapi = require('twitchappapi');
 let ipcRenderer = require('electron').ipcRenderer;
+let remote = require('electron').remote;
 
 let Store = require('../../dest/store.js').Store;
 let instanceManager = require('../../dest/instanceManager.js');
+
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e) =>
+{
+	if (e.which === 123) 
+	{
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
 
 const store = new Store(
 {

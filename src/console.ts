@@ -1,15 +1,15 @@
 let Store = require('../../dest/store.js').Store;
 let instanceManager = require('../../dest/instanceManager.js');
-let ipcRenderer = require('electron').ipcRenderer;
 
 import { Forge } from '@xmcl/forge';
 import { ForgeInstaller } from '@xmcl/forge-installer';
 import { Version } from '@xmcl/version';
-import { readdirSync, mkdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
+import { readdirSync } from 'fs';
 import { join } from 'path';
 import { ChildProcess } from 'child_process';
 import { Installer } from '@xmcl/installer';
 import { Launcher } from '@xmcl/minecraft-launcher-core';
+import { ipcRenderer, remote } from 'electron';
 
 let instances = instanceManager.getInstances();
 var $_GET = {};
@@ -47,6 +47,20 @@ store = new Store(
 {
     configName: 'user-data',
     defaults: {}
+});
+
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e: KeyboardEvent) =>
+{
+	if (e.which === 123) 
+	{
+		//@ts-ignore
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
 });
 
 let proc: ChildProcess;

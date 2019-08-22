@@ -1,5 +1,20 @@
 let Store = require('../../dest/store.js').Store;
 let instanceManager = require('../../dest/instanceManager.js');
+let remote = require('electron').remote;
+
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e) =>
+{
+	if (e.which === 123) 
+	{
+		//@ts-ignore
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
 
 const store = new Store(
 {

@@ -1,12 +1,10 @@
-import { Version, Auth, ForgeWebPage, MojangService, Forge, Installer } from '@xmcl/minecraft-launcher-core';
+import { Version, Auth, ForgeWebPage, MojangService, Forge, Installer, Fabric, ForgeInstaller } from '@xmcl/minecraft-launcher-core';
 import { app, BrowserWindow, ipcMain, autoUpdater, dialog } from "electron";
 
 import { createInstance, getWorkingDir } from './instanceManager'
 import { Store } from './store';
 import { join } from 'path';
 import { mkdirSync, existsSync, exists, createWriteStream, unlinkSync, readFileSync, writeFileSync, readdirSync } from 'fs';
-import ForgeInstaller from '@xmcl/forge-installer';
-
 const fetch = require('node-fetch');
 
 var discordRichPresence;
@@ -156,6 +154,13 @@ async function checkVersions(forceRefresh = false)
 	store.set('versions', versions);
 	console.log('Fetched minecraft versions, latest is ' + versions.latest.release);
 
+	/*if(!store.get('fabricVersions') || forceRefresh)
+	{
+		const versionList: Fabric.VersionList = await Fabric.updateVersionList();
+		store.set('fabricVersions', versionList);
+		console.log(versionList);
+	}*/
+
 	if(!store.get('forgeVersions') || forceRefresh)
 	{
 		for(let i = 0; i < versions.versions.length; i++)
@@ -198,10 +203,7 @@ async function createWindow()
 		process.exit();
 	});
 	
-	if(!isDev)
-	{
-		win.setMenu(null);
-	}
+	win.setMenu(null);
 
 	if(!store.get('memory'))
 	{

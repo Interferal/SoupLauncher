@@ -1,9 +1,21 @@
 let Store = require('../../dest/store.js').Store;
 let instanceManager = require('../../dest/instanceManager.js');
-let ipcRenderer = require('electron').ipcRenderer;
 
-import { readdirSync, mkdirSync, existsSync, writeFileSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { remote, ipcRenderer } from 'electron';
+
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e: KeyboardEvent) =>
+{
+	if (e.which === 123) 
+	{
+		//@ts-ignore
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
 
 let store = new Store(
 {

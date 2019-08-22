@@ -1,4 +1,19 @@
 let os = require('os');
+let remote = require('electron').remote;
+
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e) =>
+{
+	if (e.which === 123) 
+	{
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
+
 document.getElementById('memory').max = (os.totalmem() / (1024*1024));
 
 function updateRamAmt(amt)

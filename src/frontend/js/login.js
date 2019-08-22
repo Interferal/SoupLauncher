@@ -1,4 +1,21 @@
 let ipcRenderer = require('electron').ipcRenderer;
+let remote = require('electron').remote;
+
+
+remote.getCurrentWindow().setMenu(null);
+
+document.addEventListener('keydown', (e) =>
+{
+	if (e.which === 123) 
+	{
+		//@ts-ignore
+		remote.getCurrentWindow().toggleDevTools();
+	} else if (e.which === 116) 
+	{
+		location.reload();
+	}
+});
+
 
 var $_GET = {};
 if(document.location.toString().indexOf('?') !== -1) 
