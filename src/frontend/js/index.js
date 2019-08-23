@@ -29,20 +29,28 @@ document.addEventListener('keydown', (e) =>
 	}
 });
 
+var rcBusy = false;
+
 
 window.addEventListener("contextmenu", (e) =>
 {
     if(e.path[0].nodeName == 'HTML' || e.path[0].nodeName == 'DIV')
     {
+        if(rcBusy)
+        {
+            e.stopPropagation();
+            return;
+        }
         let bawdy = document.getElementById('bawdy');
         let added = `
-        <div onmouseleave="this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
-            <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New Instance</a>
-            <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();importPack();">Import Pack</a>
-            <a href="#" class="rc-menu-item" onclick="this.parentElement.remove();shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));">Open Instances Folder</a>
+        <div onmouseleave="rcBusy = false;this.remove()" class="rc-menu" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
+            <a href="#" class="rc-menu-item" onclick="rcBusy = false;this.parentElement.remove();window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New Instance</a>
+            <a href="#" class="rc-menu-item" onclick="rcBusy = false;this.parentElement.remove();importPack();">Import Pack</a>
+            <a href="#" class="rc-menu-item" onclick="rcBusy = false;this.parentElement.remove();shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));">Open Instances Folder</a>
         </div>`;
 
         bawdy.innerHTML += added;
+        rcBusy = true;
         e.stopPropagation();
     }
 }, true);
@@ -570,7 +578,7 @@ async function exportInstance(name)
 
     let files = fs.readdirSync(instanceFolder);
 
-    let blacklist = ['info.json', 'logs', 'mods', 'realms_persistence.json', 'lastlogin'];
+    let blacklist = ['info.json', 'logs', 'mods', 'realms_persistence.json', 'lastlogin', '.ReAuth.cfg'];
 
     for (let i = 0; i < files.length; i++) 
     {
@@ -613,7 +621,7 @@ async function exportInstance(name)
             } else
             {
                 console.log('Found mod jar that was not in mods.jar list: ' + modFile + ', adding to overrides directory.');
-                zip.addLocalFile(modPath, manifest.overrides);
+                zip.addLocalFile(modPath, manifest.overrides + '/mods');
             }
         }
     }
