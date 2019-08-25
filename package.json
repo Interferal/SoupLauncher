@@ -1,7 +1,7 @@
 {
   "name": "souplauncher",
   "productName": "Soup Launcher",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "",
   "main": "dest/main.js",
   "scripts": {
@@ -49,7 +49,7 @@
     "@types/node": "^12.7.2",
     "@types/uuid": "^3.4.5",
     "@types/yauzl": "^2.9.1",
-    "electron": "^6.0.3",
+    "electron": "^6.0.4",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.0.4",
     "electron-winstaller": "^4.0.0"

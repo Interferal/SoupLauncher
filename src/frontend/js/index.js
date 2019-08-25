@@ -223,9 +223,10 @@ async function importPack(zipFile = undefined, mmcPackName = undefined)
         let mcVersion = store.get('versions').versions.filter(version => version.id == manifest.minecraft.version)[0];
         let forgeVersion = undefined;
 
-        if(manifest.minecraft.modLoaders.length)
+        let loaderList = manifest.minecraft.modLoaders || manifest.minecraft.modloaders;
+        if(loaderList.length)
         {
-            let forgeVersionNeeded = manifest.minecraft.modLoaders[0].id.split('-')[1].trim();
+            let forgeVersionNeeded = loaderList[0].id.split('-')[1].trim();
             forgeVersion = store.get('forgeVersions')[mcVersion.id].versions.filter(forge => forge.version == forgeVersionNeeded)[0];
         }
 
