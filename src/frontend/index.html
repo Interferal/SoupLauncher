@@ -1,49 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 
-        <title>Soup Launcher</title>
-    </head>
+    <title>Soup Launcher</title>
+</head>
 
-    <body id="bawdy">
-        <nav class="navbar sticky-top navbar-color" id="navbar">
-            <div class="redesign-button" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');">Settings</div>
-            <div class="redesign-button" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New</div>
-            <div class="redesign-button" onclick="browseModPacks();">Browse</div>
-            <div class="redesign-button" onclick="importPack();">Import</div>
-            <div class="redesign-button" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');">About</div>
-            <div class="redesign-button" onclick="logout();">Logout</div>
-            <img id="profpic" class="profpic" src="">
-        </nav>
-        <br>
+<body id="bawdy">
 
-        <div class="grid-container" id="instances">
-                
-        </div>
+<nav class="navbar-mine navbar-color" id="navbar">
+    <div class="redesign-button" onclick="console.log('das me');browseModPacks();"><i class="fa fa-search navicon"></i>Browse
+    </div>
+    <div class="redesign-button" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes');"><i
+            class="fa fa-plus navicon"></i>New
+    </div>
+    <div class="redesign-button" onclick="importPack();"><i
+            class="fa fa-folder navicon"></i>Import
+    </div>
+    <div class="redesign-button" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');"><i
+            class="fa fa-cog navicon"></i>Settings
+    </div>
+    <div class="redesign-button" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');"><i
+            class="fa fa-info navicon"></i>About
+    </div>
+    <div class="redesign-button" onclick="logout();"><i class="fa fa-sign-out-alt navicon"></i>Logout</div>
+    <img id="profpic" class="profpic" src="">
+</nav>
 
-        <script src="js/index.js"></script>
+<div class="not-nav">
 
-        <footer class="fowoter">
-            <div class="text-center">
-                <span id="releases-info">Loading release info...</span>
-            </div>
-        </footer>
+    <div class="grid-container" id="instances">
 
-        <script>
-            async function updateRelease()
-            {
-                let latestRelease = await fetch('https://api.github.com/repos/supertransformer/SoupLauncher/releases/latest');
-                let jsonRelease = await latestRelease.json();
-                console.log(jsonRelease);
-                document.getElementById('releases-info').innerHTML = `Latest update: ${jsonRelease.tag_name} <b style="cursor: pointer;" onclick='shell.openItem("${jsonRelease.html_url}")'>More info</b>`;
-            }
-            updateRelease();
-        </script>
-    </body>
+    </div>
+
+    <footer class="fowoter">
+        <span id="releases-info">Loading release info...</span>
+    </footer>
+
+
+    <div id="rc-menu-bawdy" class="rc-menu">
+        <a href="#" class="rc-menu-item"
+           onclick="this.parentElement.style.display = 'none';window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New
+            Instance</a>
+        <a href="#" class="rc-menu-item" onclick="this.parentElement.style.display = 'none';importPack();">Import
+            Pack</a>
+        <a href="#" class="rc-menu-item"
+           onclick="this.parentElement.style.display = 'none';shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));">Open
+            Instances Folder</a>
+    </div>
+
+</div>
+
+<script src="js/index.js"></script>
+
+<script>
+    async function updateRelease() {
+        let latestRelease = await fetch('https://api.github.com/repos/supertransformer/SoupLauncher/releases/latest');
+        let jsonRelease = await latestRelease.json();
+        console.log(jsonRelease);
+        document.getElementById('releases-info').innerHTML = `Latest update: ${jsonRelease.tag_name} <b style="cursor: pointer;" onclick='shell.openItem("${jsonRelease.html_url}")'>More info</b>`;
+    }
+    updateRelease();
+</script>
+
+</body>
 </html>
