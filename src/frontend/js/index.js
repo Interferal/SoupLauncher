@@ -67,6 +67,7 @@ function browseModPacks()
     win.loadURL(`file://${__dirname}/cursemodpackbrowser.html`);
 }
 
+
 function refreshVersions()
 {
     ipcRenderer.send('refreshVersions', {});
