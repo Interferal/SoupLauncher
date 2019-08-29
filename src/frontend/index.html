@@ -14,11 +14,14 @@
 <body id="bawdy">
 
 <nav class="navbar-mine navbar-color" id="navbar">
-    <div class="redesign-button" onclick="browseModPacks();"><i class="fa fa-search navicon"></i>Browse</div>
+    <div class="redesign-button" onclick="console.log('das me');browseModPacks();"><i class="fa fa-search navicon"></i>Browse
+    </div>
     <div class="redesign-button" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes');"><i
             class="fa fa-plus navicon"></i>New
     </div>
-    <div class="redesign-button" onclick="importPack();"><i class="fa fa-folder navicon"></i>Import</div>
+    <div class="redesign-button" onclick="importPack();"><i
+            class="fa fa-folder navicon"></i>Import
+    </div>
     <div class="redesign-button" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');"><i
             class="fa fa-cog navicon"></i>Settings
     </div>
@@ -27,7 +30,6 @@
     </div>
     <div class="redesign-button" onclick="logout();"><i class="fa fa-sign-out-alt navicon"></i>Logout</div>
     <img id="profpic" class="profpic" src="">
-    <div></div>
 </nav>
 
 <div class="not-nav">
@@ -37,12 +39,23 @@
     </div>
 
     <footer class="fowoter">
-        <div class="text-center">
-            <span id="releases-info">Loading release info...</span>
-        </div>
+        <span id="releases-info">Loading release info...</span>
     </footer>
 
+
+    <div id="rc-menu-bawdy" class="rc-menu">
+        <a href="#" class="rc-menu-item"
+           onclick="this.parentElement.style.display = 'none';window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New
+            Instance</a>
+        <a href="#" class="rc-menu-item" onclick="this.parentElement.style.display = 'none';importPack();">Import
+            Pack</a>
+        <a href="#" class="rc-menu-item"
+           onclick="this.parentElement.style.display = 'none';shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));">Open
+            Instances Folder</a>
+    </div>
+
 </div>
+
 <script src="js/index.js"></script>
 
 <script>
@@ -54,5 +67,6 @@
     }
     updateRelease();
 </script>
+
 </body>
 </html>

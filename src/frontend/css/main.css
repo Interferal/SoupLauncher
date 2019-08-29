@@ -1,31 +1,21 @@
-/*body*/
-/*{*/
-	/*padding: 0;*/
-	/*margin: 0;*/
-	/*line-height: normal;*/
-	/*background-color: #2f3136;*/
-	/*color: white;*/
-	/*font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
-/*}*/
+.float
+{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:white;
+	color: black;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
 
-/*.float*/
-/*{*/
-	/*position:fixed;*/
-	/*width:60px;*/
-	/*height:60px;*/
-	/*bottom:40px;*/
-	/*right:40px;*/
-	/*background-color:white;*/
-	/*color: black;*/
-	/*border-radius:50px;*/
-	/*text-align:center;*/
-	/*box-shadow: 2px 2px 3px #999;*/
-/*}*/
-
-/*.my-float*/
-/*{*/
-	/*margin-top:22px;*/
-/*}*/
+.my-float
+{
+	margin-top:22px;
+}
 
 .grid-container
 {
@@ -46,7 +36,7 @@
 .location-listing
 {
 	position: relative;
-	box-shadow: 6px 6px 20px black;
+	box-shadow: 6px 6px 10px black;
 	padding: 10px;
 	border-radius: 5px;
 	background-color: #292a2f;
@@ -92,459 +82,358 @@
 	background-blend-mode: hue;
 }
 
-/*.form-control:focus */
-/*{*/
-	/*box-shadow:none !important;*/
-/*}*/
+.form-control:focus
+{
+	box-shadow:none !important;
+}
 
-/*.form-control */
-/*{*/
-	/*box-shadow:none !important;*/
-	/*border: 0;*/
-/*}*/
+.form-control
+{
+	box-shadow:none !important;
+	border: 0;
+}
 
-/*.rc-menu-item*/
-/*{*/
-	/*color: white;*/
-	/*text-decoration: none;*/
-	/*display: block;*/
-	/*background-color: black;*/
-	/*padding: 4px 4px;*/
-/*}*/
+.sidebarnav
+{
+	display: block;
+	background-color: black;
+	color: white;
+	width: 120px;
+	height: 100vh;
+	box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.77);
+	position: fixed;
+	top: 0;
+	left: 0;
+}
 
-/*.rc-menu-item:hover*/
-/*{*/
-	/*background-color: rgb(94, 94, 94);*/
-	/*text-decoration: none;*/
-	/*color: white;*/
-/*}*/
+.inst-menu-item
+{
+	padding: 4px 4px;
+	color: white;
+	text-decoration: none;
+	display: block;
+	background-color: rgb(12, 12, 12);
+}
 
-/*.rc-menu*/
-/*{*/
-	/*width: 150px; */
-	/*height: auto; */
-	/*display: block; */
-	/*color: white; */
-	/*padding: 20px 10px;*/
-	/*background-color: black;*/
-	/*border-radius: 2px;*/
-	/*box-shadow: 6px 6px 20px black;*/
-/*}*/
+.inst-menu-item:hover
+{
+	background-color: rgb(37, 37, 37);
+	text-decoration: none;
+	color: white;
+}
 
-/*.sidebarnav*/
-/*{*/
-	/*display: block;*/
-	/*background-color: black;*/
-	/*color: white;*/
-	/*width: 120px;*/
-	/*height: 100vh;*/
-	/*box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.77);*/
-	/*position: fixed;*/
-	/*top: 0;*/
-	/*left: 0;*/
-/*}*/
+.inst-menu-item-launch
+{
+	background-color: rgb(0, 150, 0);
+}
 
-/*.inst-menu-item*/
-/*{*/
-	/*padding: 4px 4px;*/
-	/*color: white;*/
-	/*text-decoration: none;*/
-	/*display: block;*/
-	/*background-color: rgb(12, 12, 12);*/
-/*}*/
+.inst-menu-item-launch:hover
+{
+	background-color: rgb(0, 180, 0);
+}
 
-/*.inst-menu-item:hover*/
-/*{*/
-	/*background-color: rgb(37, 37, 37);*/
-	/*text-decoration: none;*/
-	/*color: white;*/
-/*}*/
+.inst-menu-item-launched
+{
+	background-color: rgb(150, 0, 0);
+}
 
-/*.inst-menu-item-launch*/
-/*{*/
-	/*background-color: rgb(0, 150, 0);*/
-/*}*/
+.inst-menu-item-launched:hover
+{
+	background-color: rgb(180, 0, 0);
+}
 
-/*.inst-menu-item-launch:hover*/
-/*{*/
-	/*background-color: rgb(0, 180, 0);*/
-/*}*/
+.kontainer
+{
+	position: absolute;
+	top: 0;
+	left: 120px;
+}
 
-/*.inst-menu-item-launched*/
-/*{*/
-	/*background-color: rgb(150, 0, 0);*/
-/*}*/
+.modItem
+{
+	color: black;
+	text-decoration: none;
+}
 
-/*.inst-menu-item-launched:hover*/
-/*{*/
-	/*background-color: rgb(180, 0, 0);*/
-/*}*/
+#searchMods
+{
+	margin-left: 200px;
+	display: block;
+	position: absolute;
+	right: 44vw;
+	top: 14px;
+	display: none;
+	z-index: 1;
+}
 
-/*.kontainer*/
-/*{*/
-	/*position: absolute;*/
-	/*top: 0;*/
-	/*left: 120px;*/
-/*}*/
+.btn-get
+{
+	float: right;
+	color: white;
+	background-color: black;
+	border-radius: 4px;
+	border: 1px solid gray;
+}
 
-/*.modItem*/
-/*{*/
-	/*color: black;*/
-	/*text-decoration: none;*/
-/*}*/
+.btn-delete
+{
+	float: right;
+	color: white;
+	background-color: red;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
 
-/*#searchMods*/
-/*{*/
-	/*margin-left: 200px; */
-	/*display: block; */
-	/*position: absolute; */
-	/*right: 44vw; */
-	/*top: 14px;*/
-	/*display: none;*/
-	/*z-index: 1;*/
-/*}*/
+.btn-get:disabled
+{
+	background-color: blue;
+}
 
-/*.btn-get*/
-/*{*/
-	/*float: right;*/
-	/*color: white;*/
-	/*background-color: black;*/
-	/*border-radius: 4px;*/
-	/*border: 1px solid gray;*/
-/*}*/
+.btn-odt
+{
+	background-color: darkred;
+}
 
-/*.btn-delete*/
-/*{*/
-	/*float: right;*/
-	/*color: white;*/
-	/*background-color: red;*/
-	/*border-radius: 4px;*/
-	/*font-size: 0.9em;*/
-/*}*/
+.btn-odt:hover
+{
+	background-color: red;
+}
 
-/*.btn-get:disabled*/
-/*{*/
-	/*background-color: blue;*/
-/*}*/
+.console
+{
+	background-color: black;
+	color: white;
+	width: 100%;
+	height: 100%;
+    min-height: 100vh;
+	display: block;
+	font-size: 0.9em;
+	white-space: pre-wrap;
+	word-break: break-all;
+	font-family: monospace;
+}
 
-/*.btn-odt*/
-/*{*/
-	/*background-color: darkred;*/
-/*}*/
+.console-error
+{
+	color: red;
+}
 
-/*.btn-odt:hover*/
-/*{*/
-	/*background-color: red;*/
-/*}*/
+.console-controls
+{
+	width: 100%;
+	display: block;
+	height: 50px;
+	padding: 5px 5px;
+}
 
-/*.navbar-brand:hover*/
-/*{*/
-	/*color: slategray!important;*/
-/*}*/
+.kill-mc:disabled
+{
+	color: red;
+}
 
-/*.navbar-color*/
-/*{*/
-	/*background-color: #25292b;*/
-	/*justify-content: center;*/
-	/*box-shadow: 5px 3px 5px 0 rgba(0,0,0,0.60);*/
-/*}*/
+.mod-buttons
+{
+	float: right;
+}
 
-/*.console*/
-/*{*/
-	/*background-color: black;*/
-	/*color: white;*/
-	/*width: 100%;*/
-	/*height: 100%;*/
-    /*min-height: 100vh;*/
-	/*display: block;*/
-	/*font-size: 0.9em;*/
-	/*white-space: pre-wrap;*/
-	/*word-break: break-all;*/
-	/*font-family: monospace;*/
-/*}*/
+.mod-desc
+{
+	max-width: 90%;
+    white-space: pre-wrap;
+    display: block;
+}
 
-/*.console-error*/
-/*{*/
-	/*color: red;*/
-/*}*/
+.about
+{
+	display: block;
+	color: black;
+	background-color: white;
+	border-radius: 10px;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 50px;
+}
 
-/*.console-controls*/
-/*{*/
-	/*width: 100%;*/
-	/*display: block;*/
-	/*height: 50px;*/
-	/*padding: 5px 5px;*/
-/*}*/
+.mod-icon
+{
+	width: 48px;
+	height: auto;
+	padding-bottom: 10px;
+	padding-right: 4px;
+}
 
-/*.kill-mc:disabled*/
-/*{*/
-	/*color: red;*/
-/*}*/
+.configeditor-hidden
+{
+	display: none;
+	height: 0;
+}
 
-/*.mod-buttons*/
-/*{*/
-	/*float: right;*/
-/*}*/
+.configeditor-div
+{
+	display: block;
+	width: 80vw;
+	background-color: white;
+	color: black;
+	border-radius: 10px;
+	padding: 10px 10px;
+}
 
-/*.mod-desc*/
-/*{*/
-	/*max-width: 90%;*/
-    /*white-space: pre-wrap;*/
-    /*display: block;*/
-/*}*/
+.configeditor-div span
+{
+	margin-left: 10px;
+	font-weight: bold;
+}
 
-/*.settings-cog*/
-/*{*/
-	/*position: absolute; */
-	/*top: 12px; */
-	/*left: calc(100vw - 130px);*/
-	/*color: rgb(46, 46, 46);*/
-	/*font-size: 2.5em;*/
-/*}*/
+.configeditor-div i
+{
+	transition: all 0.25s cubic-bezier(0.4, 0, 0.21, 1.32);
+}
 
-/*.settings-cog*/
-/*{*/
-	/*cursor: pointer;*/
-/*}*/
+.rot180
+{
+	transform: rotate(180deg);
+}
 
+.configeditor-container
+{
+	padding: 5px 5px;
+}
 
-/*.profpic*/
-/*{*/
-	/*padding: 0;*/
-	/*top: 10px; */
-	/*left: calc(100vw - 60px);*/
-	/*box-shadow: 0px 0px 5px 0px black;*/
-	/*position: absolute;*/
-/*}*/
+.configeditor-content
+{
+	/* TODO */
+}
 
-/*.about*/
-/*{*/
-	/*display: block; */
-	/*color: black; */
-	/*background-color: white;*/
-	/*border-radius: 10px;*/
-	/*margin: 0;*/
-	/*position: absolute;*/
-	/*top: 50%;*/
-	/*left: 50%;*/
-	/*transform: translate(-50%, -50%);*/
-	/*padding: 50px;*/
-/*}*/
+.ok, .cancel
+{
+	color: white !important;
+	background-color: rgb(10, 10, 10) !important;
+	border: none !important;
+	padding: 8px;
+    width: calc(50% - 5px);
+	font-size: 13px;
+	border-radius: 5px;
+}
 
-/*.mod-icon*/
-/*{*/
-	/*width: 48px;*/
-	/*height: auto;*/
-	/*padding-bottom: 10px;*/
-	/*padding-right: 4px;*/
-/*}*/
+.ok:hover, .cancel:hover
+{
+	background-color: rgb(37, 37, 37) !important;
+}
 
+.prompt
+{
+	background-color: black !important;
+	color: white !important;
+}
+.prompt form
+{
+	margin-left: 14px;
+}
 
+.dialog-widget input
+{
+	font-size: 0.9em !important;
+}
 
-/*.configeditor-hidden*/
-/*{*/
-	/*display: none;*/
-	/*height: 0;*/
-/*}*/
+.modpackbrowser-div
+{
+	margin-left: 20px;
+	text-align: center;
+	margin-top: 10px;
+	justify-content: center;
+}
 
-/*.configeditor-div*/
-/*{*/
-	/*display: block;*/
-	/*width: 80vw;*/
-	/*background-color: white;*/
-	/*color: black;*/
-	/*border-radius: 10px;*/
-	/*padding: 10px 10px;*/
-/*}*/
+.modpackbrowser-div label
+{
+	line-height: 24px;
+}
 
-/*.configeditor-div span*/
-/*{*/
-	/*margin-left: 10px;*/
-	/*font-weight: bold;*/
-/*}*/
+.modpackbrowser-div input,select
+{
+	margin-left: 8px;
+}
 
-/*.configeditor-div i*/
-/*{*/
-	/*transition: all 0.25s cubic-bezier(0.4, 0, 0.21, 1.32);*/
-/*}*/
+.modpackbrowser-container
+{
+	margin-top: -50px;
+}
 
-/*.rot180*/
-/*{*/
-	/*transform: rotate(180deg);*/
-/*}	*/
+.modpackbrowser-container li
+{
+	padding-left: 30px;
+}
 
-/*.configeditor-container*/
-/*{*/
-	/*padding: 5px 5px;*/
-/*}*/
+.modpackbrowser-name
+{
+	padding-left: 6px;
+}
 
-/*.configeditor-content*/
-/*{*/
-	/*!* TODO *!*/
-/*}*/
+.btn-installModpack
+{
+	float: right;
+	color: white;
+	background-color: black;
+	border-radius: 4px;
+	font-size: 0.9em;
+}
 
-/*.ok, .cancel*/
-/*{*/
-	/*color: white !important;*/
-	/*background-color: rgb(10, 10, 10) !important;*/
-	/*border: none !important;*/
-	/*padding: 8px;*/
-    /*width: calc(50% - 5px);*/
-	/*font-size: 13px;*/
-	/*border-radius: 5px;*/
-/*}*/
+.modpackbrowser-bg
+{
+	position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+}
 
-/*.ok:hover, .cancel:hover*/
-/*{*/
-	/*background-color: rgb(37, 37, 37) !important;*/
-/*}*/
+.modpackbrowser-prompt
+{
+	position: fixed;
+    left: calc(50% - 160px);
+    width: 300px;
+    top: calc(50% - 115px);
+    border: solid 1px #ddd;
+    background: whitesmoke;
+    z-index: 10000;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    color: black;
+    padding: 15px 10px 15px 10px;
+    font-family: arial
+}
 
-/*.prompt*/
-/*{*/
-	/*background-color: black !important;*/
-	/*color: white !important;*/
-/*}*/
-/*.prompt form*/
-/*{*/
-	/*margin-left: 14px;*/
-/*}*/
+.divider
+{
+	border-top: solid 1px #ddd;
+    padding: 0;
+    margin: 15px 0 15px -10px;
+    width: calc(100% + 20px);
+}
 
-/*.dialog-widget input*/
-/*{*/
-	/*font-size: 0.9em !important;*/
-/*}*/
+.title
+{
+	text-align: center;
+    display: block;
+	font-size: 14px;
+	display: block;
 
-/*.redesign-button*/
-/*{*/
-	/*display: block;*/
-	/*float: top;*/
-	/*width: 100px;*/
-	/*height: 40px;*/
-	/*background-image: linear-gradient(to bottom right, #212121, #15171a);*/
-	/*!*background-color: #15171a;*!*/
-	/*color: white;*/
-	/*margin: 5px 15px;*/
-	/*text-align: center;*/
-	/*line-height: 40px;*/
-	/*border-radius: 5px;*/
-	/*box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.60);*/
-	/*transition: 0.3s;*/
-/*}*/
+}
 
-/*.redesign-button:hover*/
-/*{*/
-	/*box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.90);*/
-	/*cursor: pointer;*/
-/*}*/
+.title-margin
+{
+	margin-left: 20px;
+}
 
-/*.fowoter*/
-/*{*/
-	/*position: fixed;*/
-	/*bottom: 0;*/
-	/*width: 100%;*/
-	/*height: 36px;*/
-	/*line-height: 36px;*/
-	/*background-color: #25292b;*/
-	/*box-shadow: -5px -3px 5px 0px rgba(0,0,0,0.70);*/
-	/*margin-top: 36px*/
-/*}*/
-
-/*.modpackbrowser-div*/
-/*{*/
-	/*margin-left: 20px;*/
-	/*text-align: center;*/
-	/*margin-top: 10px;*/
-	/*justify-content: center;*/
-/*}*/
-
-/*.modpackbrowser-div label*/
-/*{*/
-	/*line-height: 24px;*/
-/*}*/
-
-/*.modpackbrowser-div input,select*/
-/*{*/
-	/*margin-left: 8px;*/
-/*}*/
-
-/*.modpackbrowser-container*/
-/*{*/
-	/*margin-top: -50px;*/
-/*}*/
-
-/*.modpackbrowser-container li*/
-/*{*/
-	/*padding-left: 30px;*/
-/*}*/
-
-/*.modpackbrowser-name*/
-/*{*/
-	/*padding-left: 6px;*/
-/*}*/
-
-/*.btn-installModpack*/
-/*{*/
-	/*float: right;*/
-	/*color: white;*/
-	/*background-color: black;*/
-	/*border-radius: 4px;*/
-	/*font-size: 0.9em;*/
-/*}*/
-
-/*.modpackbrowser-bg*/
-/*{*/
-	/*position: fixed;*/
-    /*left: 0;*/
-    /*top: 0;*/
-    /*background: rgba(0, 0, 0, 0.4);*/
-    /*z-index: 9999;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-/*}*/
-
-/*.modpackbrowser-prompt*/
-/*{*/
-	/*position: fixed;*/
-    /*left: calc(50% - 160px);*/
-    /*width: 300px;*/
-    /*top: calc(50% - 115px);*/
-    /*border: solid 1px #ddd;*/
-    /*background: whitesmoke;*/
-    /*z-index: 10000;*/
-    /*border-radius: 5px;*/
-    /*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);*/
-    /*color: black;*/
-    /*padding: 15px 10px 15px 10px;*/
-    /*font-family: arial*/
-/*}*/
-
-/*.divider*/
-/*{*/
-	/*border-top: solid 1px #ddd;*/
-    /*padding: 0;*/
-    /*margin: 15px 0 15px -10px;*/
-    /*width: calc(100% + 20px);*/
-/*}*/
-
-/*.title*/
-/*{*/
-	/*text-align: center;*/
-    /*display: block;*/
-	/*font-size: 14px;*/
-	/*display: block;*/
-
-/*}*/
-
-/*.title-margin*/
-/*{*/
-	/*margin-left: 20px;*/
-/*}*/
-
-/*.container-settings*/
-/*{*/
-	/*margin-right: 26px;*/
-	/*margin-top: 20px;*/
-/*}*/
+.container-settings
+{
+	margin-right: 26px;
+	margin-top: 20px;
+}
 
 /*
 #15171a
@@ -552,8 +441,10 @@
 #2a3031
 #2f3136
 */
+
 html {
     height: 100%;
+    user-select: none;
 }
 
 body {
@@ -563,6 +454,7 @@ body {
     line-height: normal;
     margin: 0;
     padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .navbar-mine {
@@ -595,6 +487,7 @@ body {
     color: #818181;
     display: block;
     transition: 0.3s;
+    cursor: pointer;
 }
 
 .redesign-button:hover {
@@ -629,4 +522,35 @@ body {
     width: 100%;
     background: #25292b;
     box-shadow: 0 -3px 5px 0 rgba(0,0,0,0.70);
+}
+
+.rc-menu {
+    display: none;
+    position: absolute;
+    width: 150px;
+    border-radius: 5px;
+    background-color: #15171a;
+    box-shadow: 6px 6px 10px rgba(0,0,0,0.70);
+}
+
+.rc-menu-item {
+    text-decoration: none;
+    display: block;
+    color: #a1a1a1;
+    padding: 4px 4px;
+    transition: 0.3s;
+}
+
+.rc-menu-item:hover {
+    background-color: rgb(94, 94, 94);
+    text-decoration: none;
+    color: white;
+}
+
+.rc-menu-item:first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+.rc-menu-item:last-child {
+    border-radius: 0 0 5px 5px;
 }
