@@ -14,22 +14,25 @@
 <body id="bawdy">
 
 <nav class="navbar-mine navbar-color" id="navbar">
-    <div class="redesign-button" onclick="console.log('das me');browseModPacks();"><i class="fa fa-search navicon"></i>Browse
-    </div>
-    <div class="redesign-button" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes');"><i
-            class="fa fa-plus navicon"></i>New
-    </div>
-    <div class="redesign-button" onclick="importPack();"><i
-            class="fa fa-folder navicon"></i>Import
-    </div>
-    <div class="redesign-button" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');"><i
-            class="fa fa-cog navicon"></i>Settings
-    </div>
-    <div class="redesign-button" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');"><i
-            class="fa fa-info navicon"></i>About
-    </div>
-    <div class="redesign-button" onclick="logout();"><i class="fa fa-sign-out-alt navicon"></i>Logout</div>
-    <img id="profpic" class="profpic" src="">
+    <ul id="nav-ul">
+        <li class="redesign-button" onclick="console.log('das me');browseModPacks();"><i
+                class="fa fa-search navicon"></i>Browse
+        </li>
+        <li class="redesign-button" onclick="window.open('newinstance.html', '_blank', 'nodeIntegration=yes');"><i
+                class="fa fa-plus navicon"></i>New
+        </li>
+        <li class="redesign-button" onclick="importPack();"><i
+                class="fa fa-folder navicon"></i>Import
+        </li>
+        <li class="redesign-button" onclick="window.open('settings.html', '_blank', 'nodeIntegration=yes');"><i
+                class="fa fa-cog navicon"></i>Settings
+        </li>
+        <li class="redesign-button" onclick="window.open('about.html', '_blank', 'nodeIntegration=yes');"><i
+                class="fa fa-info navicon"></i>About
+        </li>
+        <li class="redesign-button" onclick="logout();"><i class="fa fa-sign-out-alt navicon"></i>Logout</li>
+        <li><img id="profpic" class="profpic" src=""></li>
+    </ul>
 </nav>
 
 <div class="not-nav">
@@ -57,7 +60,8 @@
 <script src="js/index.js"></script>
 
 <script>
-    async function updateRelease() {
+    async function updateRelease()
+    {
         let latestRelease = await fetch('https://api.github.com/repos/supertransformer/SoupLauncher/releases/latest');
         let jsonRelease = await latestRelease.json();
         console.log(jsonRelease);
