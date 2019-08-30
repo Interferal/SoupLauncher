@@ -44,13 +44,11 @@
 
 
     <div id="rc-menu-bawdy" class="rc-menu">
-        <a href="#" class="rc-menu-item"
-           onclick="this.parentElement.style.display = 'none';window.open('newinstance.html', '_blank', 'nodeIntegration=yes');">New
+        <a href="javascript:window.open('newinstance.html', '_blank', 'nodeIntegration=yes');" class="rc-menu-item">New
             Instance</a>
-        <a href="#" class="rc-menu-item" onclick="this.parentElement.style.display = 'none';importPack();">Import
+        <a href="javascript:importPack()" class="rc-menu-item">Import
             Pack</a>
-        <a href="#" class="rc-menu-item"
-           onclick="this.parentElement.style.display = 'none';shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));">Open
+        <a href="javascript:shell.openItem(join(instanceManager.getWorkingDir(), 'instances'));" class="rc-menu-item">Open
             Instances Folder</a>
     </div>
 

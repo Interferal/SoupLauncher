@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@xmcl/minecraft-launcher-core": "^0.1.11",
+    "@xmcl/minecraft-launcher-core": "^0.1.12",
     "@xmcl/util": "^0.1.5",
     "adm-zip": "github:cthackers/adm-zip",
     "bytebuffer": "^5.0.1",
@@ -35,7 +35,7 @@
     "node-fetch": "^2.6.0",
     "treelike-task": "0.0.16",
     "twitchappapi": "^1.0.5",
-    "typescript": "^3.5.3",
+    "typescript": "^3.6.2",
     "uuid": "^3.3.3",
     "ws": "^7.1.2",
     "yauzl": "^2.10.0",
@@ -51,7 +51,7 @@
     "@types/yauzl": "^2.9.1",
     "electron": "^6.0.4",
     "electron-installer-dmg": "^3.0.0",
-    "electron-packager": "^14.0.4",
+    "electron-packager": "^14.0.5",
     "electron-winstaller": "^4.0.0"
   }
 }
