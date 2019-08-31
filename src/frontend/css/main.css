@@ -26,6 +26,18 @@
     height: auto;
 }
 
+.grid-container:nth-last-child(1)
+{
+    margin-bottom: 55px;
+}
+
+.margin-grid
+{
+    /*margin-top: 10px;*/
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .grid-container img
 {
     width: 20%;
@@ -199,29 +211,28 @@
 
 .console
 {
-    background-color: black;
-    color: white;
-    width: 100%;
-    height: 100%;
+	background-color: black;
+	color: white;
+	width: 100%;
     min-height: 100vh;
-    display: block;
-    font-size: 0.9em;
-    white-space: pre-wrap;
-    word-break: break-all;
-    font-family: monospace;
+	display: block;
+	font-size: 0.9em;
+	white-space: pre-wrap;
+	word-break: break-all;
+	font-family: monospace;
 }
 
 .console-error
 {
-    color: red;
+	color: red;
 }
 
 .console-controls
 {
-    width: 100%;
-    display: block;
-    height: 50px;
-    padding: 5px 5px;
+	width: 100%;
+	display: block;
+	height: 50px;
+	padding: 5px 5px;
 }
 
 .kill-mc:disabled
@@ -337,6 +348,14 @@
     font-size: 0.9em !important;
 }
 
+.modpbrcont
+{
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+    background-color: #3f4146;
+}
+
 .modpackbrowser-div
 {
     margin-left: 20px;
@@ -357,7 +376,8 @@
 
 .modpackbrowser-container
 {
-    margin-top: -50px;
+    margin-top: -16px;
+    z-index: 0;
 }
 
 .modpackbrowser-container li
@@ -464,8 +484,9 @@ body
     position: fixed;
     overflow: hidden;
     list-style-type: none;
-    height: 100%;
+    height: 101%;
     width: 45px;
+    top: -5px;
     background-color: #25292d;
     transition: 0.5s;
     box-shadow: 2px -48px 5px 0 rgba(0, 0, 0, 0.70);
@@ -483,7 +504,7 @@ body
     width: 160px;
 }
 
-.navbar-mine:hover .profpic
+.navbar-mine:hover
 {
     width: 150px;
 }
@@ -518,7 +539,6 @@ body
     margin: 5px;
     width: 36px;
     bottom: 0;
-    transition: 0.5s;
 }
 
 .not-nav
@@ -528,7 +548,7 @@ body
 
 .fowoter
 {
-    position: absolute;
+    position: fixed;
     z-index: 98;
     bottom: 0;
     height: 45px;

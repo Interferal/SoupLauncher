@@ -491,16 +491,16 @@ function openMenu(name)
     let bawdy = document.getElementById('bawdy');
 
     let extra = store.get('playing').playing ? '' : `
-    <a href="#" class="rc-menu-item" onclick="deleteInstance('${name}');this.parentElement.remove();">Delete instance</a>
-    <a href="#" class="rc-menu-item" onclick="exportInstance('${name}');this.parentElement.remove();">Export instance</a>
+    <a href="javascript:deleteInstance('${name}');" class="rc-menu-item" onclick="this.parentElement.remove();">Delete instance</a>
+    <a href="javascript:exportInstance('${name}');" class="rc-menu-item" onclick="this.parentElement.remove();">Export instance</a>
     `;
 
     let added = `
     <div class="rc-menu" id="rc-menu-instance" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
-        ${extra ? '<a href="#" class="rc-menu-item" onclick="renameInstance(\'' + name + '\');this.parentElement.remove();">Rename</a>' : ''}
-        <a href="#" class="rc-menu-item" onclick="openSettings('${name}');this.parentElement.remove();">Settings</a>
-        ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\'' + name + '\');this.parentElement.remove();">Mod Manager</a>' : ''}
-        <a href="#" class="rc-menu-item" onclick="openFolder('${name}');this.parentElement.remove();">Open Folder</a>
+        ${extra ? '<a href="javascript:renameInstance(\'' + name + '\');" class="rc-menu-item" onclick="this.parentElement.remove();">Rename</a>' : ''}
+        <a href="javascript:openSettings('${name}');" class="rc-menu-item" onclick="this.parentElement.remove();">Settings</a>
+        ${inst.info.forge ? '<a href="javascript:openModManager(\'' + name + '\');" class="rc-menu-item" onclick="this.parentElement.remove();">Mod Manager</a>' : ''}
+        <a href="javascript:openFolder('${name}');" class="rc-menu-item" onclick="this.parentElement.remove();">Open Folder</a>
         ${extra}
     </div>`;
     bawdy.innerHTML += added;

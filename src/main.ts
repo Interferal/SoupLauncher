@@ -192,7 +192,7 @@ async function createWindow()
 {
 	win = new BrowserWindow(
 		{
-			width: 1000,
+			width: 1100,
 			height: 720,
 			webPreferences: {nodeIntegration: true}
 		}
