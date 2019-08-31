@@ -17,70 +17,6 @@
     margin-top: 22px;
 }
 
-.grid-container
-{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    grid-gap: 1em;
-    padding: 10px 15px;
-    height: auto;
-}
-
-.grid-container img
-{
-    width: 20%;
-    height: auto;
-    margin: auto;
-}
-
-.location-listing
-{
-    position: relative;
-    box-shadow: 6px 6px 10px black;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #292a2f;
-}
-
-.location-title
-{
-    position: absolute;
-    top: 0;
-    left: 45px;
-    height: 100%;
-    width: 90%;
-
-    color: white;
-    font-size: 1.0em;
-    font-weight: bold;
-    text-decoration: none;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.location-title:hover
-{
-    color: green;
-    text-decoration: none;
-}
-
-.location-image
-{
-    margin-left: 20px;
-}
-
-.location-image div
-{
-    width: 50px;
-    height: 50px;
-    box-shadow: 0 0 5px 2px rgba(148, 148, 148, 0.77);
-    background: url('../img/dirtblock.jpg') no-repeat;
-    background-size: contain;
-    background-blend-mode: hue;
-}
-
 .form-control:focus
 {
     box-shadow: none !important;
@@ -542,6 +478,7 @@ body
 
 .rc-menu
 {
+    z-index: 50;
     position: absolute;
     width: 150px;
     border-radius: 5px;
@@ -578,4 +515,66 @@ body
 .rc-menu-item:last-child
 {
     border-radius: 0 0 5px 5px;
+}
+
+.grid-container
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 1em;
+    padding: 15px;
+}
+
+.location-listing
+{
+    box-shadow: 6px 6px 10px black;
+    border-radius: 10px;
+    height: 70px;
+    background-color: #292a2f;
+    align-items: center;
+}
+
+.location-title
+{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    float: right;
+    height: 100%;
+    width: 100%;
+    padding-left: 80px;
+    align-items: center;
+
+    color: white;
+    text-align: left;
+    font-size: 1.0em;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.5s;
+}
+
+.location-title:hover
+{
+    color: #207D4A;
+    text-decoration: none;
+}
+
+.location-title:active
+{
+    color: #005D2A;
+    text-decoration: none;
+}
+
+.location-image
+{
+    position: relative;
+    display: block;
+    margin: 10px 10px 10px 15px;
+
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 0 4px 2px rgba(148, 148, 148, 0.77);
+    background: url('../img/dirtblock.jpg') no-repeat;
+    background-size: contain;
+    background-blend-mode: hue;
 }

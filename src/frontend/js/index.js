@@ -33,7 +33,8 @@ document.addEventListener('click', e =>
 {
     let menu = document.getElementById('rc-menu-bawdy');
     let menuinstance = document.getElementById('rc-menu-instance');
-    if (menuinstance) {
+    if (menuinstance)
+    {
         menuinstance.remove();
         e.stopPropagation();
     }
@@ -52,8 +53,8 @@ document.querySelector('body').addEventListener('contextmenu', e =>
     if (e.path[0].nodeName === 'BODY' || e.path[0].nodeName === 'DIV')
     {
         menubawdy.style.display = 'block';
-        menubawdy.style.left = Math.min(Math.max(document.getElementById('navbar').clientWidth, cursorX - 10), window.innerWidth - menubawdy.clientWidth) + 'px';
-        menubawdy.style.top = Math.min(Math.max(0, cursorY - 10), window.innerHeight - menubawdy.clientHeight - document.querySelector('footer').clientHeight) + 'px';
+        menubawdy.style.left = Math.min(cursorX, window.innerWidth - menubawdy.clientWidth) + 'px';
+        menubawdy.style.top = Math.min(cursorY, window.innerHeight - menubawdy.clientHeight - document.querySelector('footer').clientHeight) + 'px';
         e.stopPropagation();
     } else if (e.path[0].nodeName === 'A')
     {
@@ -425,17 +426,12 @@ function loadInstances()
         if (inst.info.customColor)
         {
             add = `style="background-color: ${inst.info.customColor};"`;
-            add = `style="background-color: ${inst.info.customColor};"`;
         }
 
         container.innerHTML += `
-    <article class="location-listing" ${add}>
+    <article id=${inst.folder} class="location-listing" ${add}>
         <a class="location-title" href="#" oncontextmenu="return openMenu('${inst.folder}')" ondblclick="launchInstance('${inst.folder}')">${inst.info.displayName}</a>
-        <div class="location-image">
-        <a href="#" oncontextmenu="return openMenu('${inst.folder}')" onclick="launchInstance('${inst.folder}')">
-            <div></div>
-        </a>
-        </div>
+        <div class="location-image"></div>
     </article>`;
     }
 }
@@ -496,7 +492,7 @@ function openMenu(name)
     `;
 
     let added = `
-    <div class="rc-menu" id="rc-menu-instance" style="position: absolute; left: ${cursorX - 10}px; top: ${cursorY - 10}px;">
+    <div class="rc-menu" id="rc-menu-instance">
         ${extra ? '<a href="#" class="rc-menu-item" onclick="renameInstance(\'' + name + '\');this.parentElement.remove();">Rename</a>' : ''}
         <a href="#" class="rc-menu-item" onclick="openSettings('${name}');this.parentElement.remove();">Settings</a>
         ${inst.info.forge ? '<a href="#" class="rc-menu-item" onclick="openModManager(\'' + name + '\');this.parentElement.remove();">Mod Manager</a>' : ''}
@@ -504,6 +500,9 @@ function openMenu(name)
         ${extra}
     </div>`;
     bawdy.innerHTML += added;
+    let menu = document.querySelector('#rc-menu-instance');
+    menu.style.left = Math.min(cursorX, window.innerWidth - menu.clientWidth) + 'px';
+    menu.style.top = Math.min(cursorY, window.innerHeight - menu.clientHeight - document.querySelector('footer').clientHeight) + 'px';
 }
 
 deleteFolderRecursive = function (path)
