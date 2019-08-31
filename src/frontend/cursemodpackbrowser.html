@@ -11,33 +11,35 @@
 
     <body>
         <div class="modpackbrowser">
-            <nav class="navbar sticky-top navbar-color" id="navbar">
-                <div class="modpackbrowser-div">
-                    <label for="gameVersion">Game versions:</label>
-                    <select id="gameVersion" class="gameVersion" name="gameVersion" onchange="loadMore()">
-                        <option value="">All versions</option>
-                    </select>
-                </div>
-                
-                <div class="modpackbrowser-div">
-                    <label for="sortBy">Sort by</label>
-                    <select id="sortBy" class="sortBy" name="sortBy" onchange="loadMore()">
-                        <option value="1">Popularity</option>
-                        <option value="4">Date Created</option>
-                        <option value="2">Last Updated</option>
-                        <option value="3">Name</option>
-                        <option value="5">Total Downloads</option>
-                    </select>
-                </div>
-
-                <div class="modpackbrowser-div">
-                    <label for="searchpack">Search modpack</label>
-                    <input type="text" id="searchpack" class="searchpack" name="searchpack">
-                </div>
-            </nav>
+            <div class="modpbrcont">
+                    <nav class="navbar sticky-top navbar-color" id="navbar">
+                            <div class="modpackbrowser-div">
+                                <label for="gameVersion">Game versions:</label>
+                                <select id="gameVersion" class="gameVersion" name="gameVersion" onchange="loadMore()">
+                                    <option value="">All versions</option>
+                                </select>
+                            </div>
+                            
+                            <div class="modpackbrowser-div">
+                                <label for="sortBy">Sort by</label>
+                                <select id="sortBy" class="sortBy" name="sortBy" onchange="loadMore()">
+                                    <option value="1">Popularity</option>
+                                    <option value="4">Date Created</option>
+                                    <option value="2">Last Updated</option>
+                                    <option value="3">Name</option>
+                                    <option value="5">Total Downloads</option>
+                                </select>
+                            </div>
+            
+                            <div class="modpackbrowser-div">
+                                <label for="searchpack">Search modpack</label>
+                                <input type="text" id="searchpack" class="searchpack" name="searchpack">
+                            </div>
+                        </nav>
+            </div>
             <div class="modpackbrowser-container" id="modpacks"></div>
         </div>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <script src="js/cursemodpackbrowser.js"></script>
     </body>
 </html>

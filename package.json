@@ -1,7 +1,7 @@
 {
   "name": "souplauncher",
   "productName": "Soup Launcher",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "",
   "main": "dest/main.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "create-installer-mac": "npm run package-mac soup-launcher ./release-builds/soup-darwin-x64/soup.app soup-launcher --out=release-builds --overwrite --icon=assets/icons/mac/icon.icns && codesign --deep --force --verbose --sign - release-builds/soup-launcher-darwin-x64/soup-launcher.app/ && electron-installer-dmg release-builds/soup-launcher-darwin-x64/soup-launcher.app/ SoupLauncher --icon=assets/icons/mac/icon.icns"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0",
   "dependencies": {
     "@xmcl/minecraft-launcher-core": "^0.1.12",
     "@xmcl/util": "^0.1.5",
@@ -23,7 +23,7 @@
     "bytebuffer": "^5.0.1",
     "dialogs": "^2.0.1",
     "discord-rich-presence": "0.0.8",
-    "electron-context-menu": "^0.14.0",
+    "electron-context-menu": "^0.15.0",
     "electron-is-dev": "^1.1.0",
     "electron-squirrel-startup": "^1.0.0",
     "fast-html-parser": "^1.0.1",
@@ -46,10 +46,10 @@
     "@types/got": "^9.6.7",
     "@types/jquery": "^3.3.31",
     "@types/long": "^4.0.0",
-    "@types/node": "^12.7.2",
+    "@types/node": "^12.7.3",
     "@types/uuid": "^3.4.5",
     "@types/yauzl": "^2.9.1",
-    "electron": "^6.0.4",
+    "electron": "^6.0.7",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.0.5",
     "electron-winstaller": "^4.0.0"
