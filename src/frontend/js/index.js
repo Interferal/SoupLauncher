@@ -33,7 +33,8 @@ document.addEventListener('click', e =>
 {
     let menu = document.getElementById('rc-menu-bawdy');
     let menuinstance = document.getElementById('rc-menu-instance');
-    if (menuinstance) {
+    if (menuinstance)
+    {
         menuinstance.remove();
         e.stopPropagation();
     }
@@ -52,8 +53,8 @@ document.querySelector('body').addEventListener('contextmenu', e =>
     if (e.path[0].nodeName === 'BODY' || e.path[0].nodeName === 'DIV')
     {
         menubawdy.style.display = 'block';
-        menubawdy.style.left = Math.min(Math.max(document.getElementById('navbar').clientWidth, cursorX - 10), window.innerWidth - menubawdy.clientWidth) + 'px';
-        menubawdy.style.top = Math.min(Math.max(0, cursorY - 10), window.innerHeight - menubawdy.clientHeight - document.querySelector('footer').clientHeight) + 'px';
+        menubawdy.style.left = Math.min(cursorX, window.innerWidth - menubawdy.clientWidth) + 'px';
+        menubawdy.style.top = Math.min(cursorY, window.innerHeight - menubawdy.clientHeight - document.querySelector('footer').clientHeight) + 'px';
         e.stopPropagation();
     } else if (e.path[0].nodeName === 'A')
     {
@@ -398,45 +399,57 @@ function loadInstances()
         });
 
     let container = document.getElementById('instances');
-    while (container.firstChild) container.removeChild(container.firstChild);
-
     let instances = instanceManager.getInstances();
+    let inst = 0;
 
-    let instancesArray = [];
-
-    for (var inst in instances)
+    while (inst < container.childNodes.length)
     {
-        instancesArray.push(instances[inst]);
+        if (instances[container.childNodes[inst].id])
+        {
+            delete instances[container.childNodes[inst].id];
+            inst++;
+        } else
+        {
+            container.removeChild(container.childNodes[inst]);
+        }
     }
 
-    instancesArray = instancesArray.sort(function (a, b)
-    {
-        a = new Date(a.info.dateCreated);
-        b = new Date(b.info.dateCreated);
-        return a > b ? -1 : a < b ? 1 : 0;
-    });
+    if (Object.entries(instances).length !== 0) {
+        let instances = instanceManager.getInstances();
+        while (container.firstChild) container.removeChild(container.firstChild);
 
-    for (var inst in instancesArray)
-    {
-        inst = instancesArray[inst];
+        let instancesArray = [];
 
-        let add = '';
-
-        if (inst.info.customColor)
+        for (inst in instances)
         {
-            add = `style="background-color: ${inst.info.customColor};"`;
-            add = `style="background-color: ${inst.info.customColor};"`;
+            instancesArray.push(instances[inst]);
         }
 
-        container.innerHTML += `
-    <article class="location-listing" ${add}>
+        instancesArray = instancesArray.sort(function (a, b)
+        {
+            a = new Date(a.info.dateCreated);
+            b = new Date(b.info.dateCreated);
+            return a > b ? -1 : a < b ? 1 : 0;
+        });
+
+        for (inst in instancesArray)
+        {
+            inst = instancesArray[inst];
+
+            let add = '';
+
+            if (inst.info.customColor)
+            {
+                add = `style="background-color: ${inst.info.customColor};"`;
+            }
+
+            container.innerHTML += `
+    <article id=${inst.folder} class="location-listing" ${add}>
         <a class="location-title" href="#" oncontextmenu="return openMenu('${inst.folder}')" ondblclick="launchInstance('${inst.folder}')">${inst.info.displayName}</a>
-        <div class="location-image">
-        <a href="#" oncontextmenu="return openMenu('${inst.folder}')" onclick="launchInstance('${inst.folder}')">
-            <div></div>
-        </a>
-        </div>
+        <div class="location-image"></div>
     </article>`;
+        }
+
     }
 }
 
@@ -504,6 +517,9 @@ function openMenu(name)
         ${extra}
     </div>`;
     bawdy.innerHTML += added;
+    let menu = document.querySelector('#rc-menu-instance');
+    menu.style.left = Math.min(cursorX, window.innerWidth - menu.clientWidth) + 'px';
+    menu.style.top = Math.min(cursorY, window.innerHeight - menu.clientHeight - document.querySelector('footer').clientHeight) + 'px';
 }
 
 deleteFolderRecursive = function (path)
