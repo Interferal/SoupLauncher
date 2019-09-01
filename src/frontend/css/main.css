@@ -84,12 +84,6 @@
     left: 120px;
 }
 
-.modItem
-{
-    color: black;
-    text-decoration: none;
-}
-
 #searchMods
 {
     margin-left: 200px;
@@ -135,28 +129,28 @@
 
 .console
 {
-	background-color: black;
-	color: white;
-	width: 100%;
+    background-color: black;
+    color: white;
+    width: 100%;
     min-height: 100vh;
-	display: block;
-	font-size: 0.9em;
-	white-space: pre-wrap;
-	word-break: break-all;
-	font-family: monospace;
+    display: block;
+    font-size: 0.9em;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: monospace;
 }
 
 .console-error
 {
-	color: red;
+    color: red;
 }
 
 .console-controls
 {
-	width: 100%;
-	display: block;
-	height: 50px;
-	padding: 5px 5px;
+    width: 100%;
+    display: block;
+    height: 50px;
+    padding: 5px 5px;
 }
 
 .kill-mc:disabled
@@ -280,84 +274,6 @@
     background-color: #3f4146;
 }
 
-.modpackbrowser-div
-{
-    margin-left: 20px;
-    text-align: center;
-    margin-top: 10px;
-    justify-content: center;
-}
-
-.modpackbrowser-div label
-{
-    line-height: 24px;
-}
-
-.modpackbrowser-div input, select
-{
-    margin-left: 8px;
-}
-
-.modpackbrowser-container
-{
-    margin-top: -16px;
-    z-index: 0;
-}
-
-.modpackbrowser-container li
-{
-    padding-left: 30px;
-}
-
-.modpackbrowser-name
-{
-    padding-left: 6px;
-}
-
-.btn-installModpack
-{
-    float: right;
-    color: white;
-    background-color: black;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-.modpackbrowser-bg
-{
-    position: fixed;
-    left: 0;
-    top: 0;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 9999;
-    width: 100%;
-    height: 100%;
-}
-
-.modpackbrowser-prompt
-{
-    position: fixed;
-    left: calc(50% - 160px);
-    width: 300px;
-    top: calc(50% - 115px);
-    border: solid 1px #ddd;
-    background: whitesmoke;
-    z-index: 10000;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    color: black;
-    padding: 15px 10px 15px 10px;
-    font-family: arial, serif;
-}
-
-.divider
-{
-    border-top: solid 1px #ddd;
-    padding: 0;
-    margin: 15px 0 15px -10px;
-    width: calc(100% + 20px);
-}
-
 .title
 {
     text-align: center;
@@ -401,6 +317,11 @@ body
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+:focus, button:focus
+{
+    outline: auto #373 1px;
+}
+
 .navbar-mine
 {
     display: block;
@@ -408,9 +329,8 @@ body
     position: fixed;
     overflow: hidden;
     list-style-type: none;
-    height: 101%;
+    height: 100%;
     width: 45px;
-    top: -5px;
     background-color: #25292d;
     transition: 0.5s;
     box-shadow: 2px -48px 5px 0 rgba(0, 0, 0, 0.70);
@@ -425,24 +345,19 @@ body
 
 .navbar-mine:hover
 {
-    width: 160px;
-}
-
-.navbar-mine:hover
-{
     width: 150px;
 }
 
 .redesign-button
 {
+    display: block;
     left: -15px;
     padding: 8px 0;
     white-space: nowrap;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
-    display: block;
-    transition: 0.3s;
+    transition: background 0.3s;
     cursor: pointer;
 }
 
@@ -575,13 +490,13 @@ body
 
 .location-title:hover
 {
-    color: #207D4A;
+    color: #207d4a;
     text-decoration: none;
 }
 
 .location-title:active
 {
-    color: #005D2A;
+    color: #005d2a;
     text-decoration: none;
 }
 

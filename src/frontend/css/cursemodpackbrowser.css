@@ -1,0 +1,162 @@
+.modItem
+{
+    background: #3f4146;
+    color: #bbb;
+    text-decoration: none;
+}
+
+.btn-installModpack
+{
+    float: right;
+    color: #bbb;
+    background-color: #282828;
+    border: 0;
+    border-radius: 5px;
+    font-size: 0.9em;
+    transition: 0.3s;
+}
+
+.btn-installModpack:hover
+{
+    background-color: #1a1a1a;
+}
+
+label
+{
+    margin: 0;
+}
+
+.navbar-mine-top
+{
+    display: block;
+    background: #25292d;
+    color: #bbb;
+    padding: 15px 30px;
+}
+
+.navbar-mine-top ul
+{
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-mine-top li
+{
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.navbar-mine-top label
+{
+    padding-right: 5px;
+}
+
+.navbar-mine-top input, .navbar-mine-top select
+{
+    background: #444;
+    border: 0;
+    border-radius: 3px;
+    box-shadow: 0 0 4px 0 black;
+    color: inherit;
+    padding: 2px;
+}
+
+.navbar-mine-top select
+{
+    cursor: pointer;
+}
+
+.modpackbrowser-name, .modpackbrowser-author
+{
+    color: #898;
+    transition: 0.3s;
+}
+
+.modpackbrowser-name:hover, .modpackbrowser-author:hover
+{
+    text-decoration: none;
+    color: #484;
+}
+
+.modpackbrowser-name
+{
+
+    margin-left: 6px;
+}
+
+#modpacksUl
+{
+    position: relative;
+    top: 0;
+}
+
+.modpackbrowser-div label
+{
+    line-height: 24px;
+}
+
+.modpackbrowser-prompt
+{
+    position: fixed;
+    left: calc(50% - 160px);
+    width: 300px;
+    top: calc(50% - 115px);
+    background: #1b1c1d;
+    color: #bbb;
+    border: solid 1px #ddd;
+    z-index: 10000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    font-family: arial, serif;
+}
+
+#prompt-form
+{
+    position: relative;
+    align-items: center;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+#version-label {
+    margin-top: 25px;
+}
+
+.prompt-input {
+    margin-top: 10px;
+    height: 20px;
+    width: 225px;
+}
+
+.modpackbrowser-prompt-btn
+{
+    background: #181818;
+    color: inherit;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.75em;
+    padding: 7px 10px;
+    width: 128px;
+    box-shadow: 0 0 2px 0 #bbb;
+    transition: 0.3s;
+}
+
+.modpackbrowser-prompt-btn:hover {
+    box-shadow: 0 0 5px 2px #bbb;
+}
+
+#cancelButton
+{
+    float: right;
+}
+
+.divider
+{
+    border-top: solid 1px #ddd;
+    padding: 0;
+    margin: 15px 0 15px -15px;
+    width: calc(100% + 30px);
+}
