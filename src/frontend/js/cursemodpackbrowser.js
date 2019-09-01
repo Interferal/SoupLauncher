@@ -11,20 +11,20 @@ remote.getCurrentWindow().setMenu(null);
 
 document.addEventListener('keydown', (e) =>
 {
-	if (e.which === 123) 
-	{
-		remote.getCurrentWindow().toggleDevTools();
-	} else if (e.which === 116) 
-	{
-		location.reload();
-	}
+    if (e.which === 123)
+    {
+        remote.getCurrentWindow().toggleDevTools();
+    } else if (e.which === 116)
+    {
+        location.reload();
+    }
 });
 
 const store = new Store(
-{
-    configName: 'user-data',
-    defaults: {}
-});
+    {
+        configName: 'user-data',
+        defaults: {}
+    });
 
 function openURL(url)
 {
@@ -35,7 +35,7 @@ let typingTimer;
 let doneTypingInterval = 1000;
 let myInput = document.getElementById('searchpack');
 
-myInput.addEventListener('keyup', () => 
+myInput.addEventListener('keyup', () =>
 {
     console.log('keyup xd');
     clearTimeout(typingTimer);
@@ -47,10 +47,10 @@ async function loadMcVersions()
     let versions = store.get('versions');
     let selectElement = document.getElementById('gameVersion');
 
-    for(let i = 0; i < versions.versions.length; i++)
+    for (let i = 0; i < versions.versions.length; i++)
     {
         let ver = versions.versions[i];
-        if(ver.type != 'release') continue;
+        if (ver.type != 'release') continue;
 
         let child = document.createElement('option');
         child.setAttribute('value', ver.id);
@@ -70,51 +70,51 @@ async function loadMore(index = 0)
     let searchResult = await twitchappapi.addonSearch(0, 432, gameVersion, index, 25, searchString, 4471, sortBy);
     let htmlData = '';
 
-    if(index == 0)
+    if (index == 0)
     {
         window.scrollTo(0, 0);
-        htmlData = `<ul class='list-group' id="modPacksUl"><br>`;
+        htmlData = `<ul class='list-group' id="modPacksUl">`;
     }
 
-    for (let modPackIndex = 0; modPackIndex < searchResult.length; modPackIndex++) 
+    for (let modPackIndex = 0; modPackIndex < searchResult.length; modPackIndex++)
     {
         const modPack = searchResult[modPackIndex];
 
         htmlData += `<li class="list-group-item modItem"><div class="modDiv">`;
-        htmlData += `<button onclick="openInstallDialog(${modPack.id})" class="btn-installModpack">Install</button>`;
-        
+        htmlData += `<button onclick="openInstallDialog(${modPack.id})" class="btn-installModpack"><i class="fa fa-arrow-circle-down" aria-hidden="true"></i> Install</button>`;
+
         let thumbnail = modPack.attachments.filter(img => img.isDefault);
-        if(thumbnail.length >= 1) htmlData += `<img class="mod-icon" src="${thumbnail[0].thumbnailUrl}"> `;
+        if (thumbnail.length >= 1) htmlData += `<img class="mod-icon" src="${thumbnail[0].thumbnailUrl}"> `;
         htmlData += `<a href="#" class="modpackbrowser-name" onclick="openURL('${modPack.websiteUrl}');">${modPack.name}</a>`;
 
-        let authors = "";
-        if(modPack.authors)
+        let authors = '';
+        if (modPack.authors)
         {
-            authors += " by ";
-            modPack.authors.forEach(author => 
+            authors += ' by ';
+            modPack.authors.forEach(author =>
             {
-                authors += `<a href="#" onclick="openURL('${author.url}')">${author.name}</a> `;
+                authors += `<a class="modpackbrowser-author" href="#" onclick="openURL('${author.url}')">${author.name}</a> `;
             });
 
             htmlData += `${authors}<br><small class="mod-desc">${modPack.summary}</small>`;
         }
-        
+
         htmlData += '</div></li>';
     }
-    
 
-    if(index == 0)
+
+    if (index == 0)
     {
-        htmlData += "</ul>";
+        htmlData += '</ul>';
         injectIntoContainer(htmlData);
     } else
     {
         document.getElementById('modPacksUl').innerHTML += htmlData;
     }
 
-    $(window).scroll(function() 
+    $(window).scroll(function ()
     {
-        if($(window).scrollTop() >= ($(document).height() - $(window).height() - 300))
+        if ($(window).scrollTop() >= ($(document).height() - $(window).height() - 300))
         {
             $(window).unbind();
             loadMore(index + 25);
@@ -134,7 +134,7 @@ async function install(elem)
     let name = document.getElementById('instanceName').value.trim();
     let zipUrl = document.getElementById('modPackVersion').value;
 
-    if(!name || name.length < 2 || name.length > 20) return alert('Name is too long or too small.');
+    if (!name || name.length < 2 || name.length > 20) return alert('Name is too long or too small.');
 
     elem.parentElement.remove();
     document.getElementById('modpackbrowserbg').remove();
@@ -144,7 +144,7 @@ async function install(elem)
 
 function fixEnter(e)
 {
-    if(e.keyCode == 13)
+    if (e.keyCode == 13)
     {
         e.preventDefault();
         document.getElementById('okButton').click();
@@ -154,42 +154,38 @@ function fixEnter(e)
 async function openInstallDialog(id)
 {
     let bawdy = document.getElementsByTagName('body')[0];
-    bawdy.innerHTML += `<div id="modpackbrowserbg" class="modpackbrowser-bg"></div>`;
     let addonFiles = await twitchappapi.getAddonFiles(id);
 
-    addonFiles = addonFiles.sort(function(a, b) 
+    addonFiles = addonFiles.sort(function (a, b)
     {
         a = new Date(a.fileDate);
         b = new Date(b.fileDate);
-        return a>b ? -1 : a<b ? 1 : 0;
+        return a > b ? -1 : a < b ? 1 : 0;
     });
 
-    bawdy.innerHTML += `<div class="prompt modpackbrowser-prompt" data-icon="false">
-                        <img class="icon" src="">
-                        <h3 class="url"></h3>
-                        <span class="title">Enter new instance name</span>
-                        <form onsubmit="install();" onkeydown="fixEnter(event);">
-                            <input tabindex="1" id="instanceName" class="title-margin" value="">
-                            <span class="title" style="margin-right: 20px;">Select Modpack version</span>
-                            <select id="modPackVersion" class="modPackVersion title-margin form-control" style="width: 200px;">
+    bawdy.innerHTML += `<div class="modpackbrowser-prompt" data-icon="false">
+                        <form id="prompt-form" onsubmit="install();" onkeydown="fixEnter(event);">
+                            <label for="instanceName">Enter new instance name</label>
+                            <input tabindex="1" id="instanceName" class="prompt-input" value="">
+                            <label for="modPackVersion" id="version-label">Select Modpack version</label>
+                            <select id="modPackVersion" class="prompt-input">
                                 <option id="modPackVersionLatest" value=''>Latest</option>    
                             </select>
                         </form>
                         <div class="divider"></div>
-                        <button id="okButton" class="ok" tabindex="2" onclick="install(this);">Install</button>
-                        <button class="cancel" tabindex="3" onclick="this.parentElement.remove();document.getElementById('modpackbrowserbg').remove();">Cancel</button></div>`;
-
+                        <button id="okButton" class="modpackbrowser-prompt-btn" tabindex="2" onclick="install(this);">Install</button>
+                        <button id="cancelButton" class="modpackbrowser-prompt-btn" tabindex="3" onclick="this.parentElement.remove();document.getElementById('modpackbrowserbg').remove();">Cancel</button></div>`;
 
     let selectElement = document.getElementById('modPackVersion');
 
-    for(let i = 0; i < addonFiles.length; i++)
+    for (let i = 0; i < addonFiles.length; i++)
     {
         let ver = addonFiles[i];
 
         let child = document.createElement('option');
         child.setAttribute('value', ver.downloadUrl);
         let releaseLetter = '';
-        switch(ver.releaseType)
+        switch (ver.releaseType)
         {
             case 1:
             {
